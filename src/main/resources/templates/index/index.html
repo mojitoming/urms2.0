@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="'../static/common/common_js_css' :: common_js_css(~{::head/title}, ~{::head/link}, ~{::head/script})">
+    <title>Medical Insurance Fee System</title>
+    <link rel="stylesheet" th:href="@{/css/index/index.css}">
+    <script th:src="@{/js/index/index.js}"></script>
+</head>
+<body>
+    <!-- 垂直导航栏 -->
+    <ul id="sidebar" class="layui-nav layui-nav-tree layui-nav-side layui-bg-cyan" lay-filter="sidebar">
+    </ul>
+
+    <!-- 左下角 姓名 + 退出 -->
+    <div id="system-control">
+        <div id="info" class="cursor-out">
+            <span th:text="${session.user.nickname}"></span>
+            <span class="iconfont icon-xinxi"></span>
+        </div>
+        <div id="logout" class="cursor-out">
+            <span>退&nbsp;&nbsp;出
+                <span class="iconfont icon-tuichu"></span>
+            </span>
+        </div>
+    </div>
+
+    <!-- 点击用户姓名弹出 -->
+    <div id="info-detail">
+        <div id="triangle"></div>
+        <div id="info-detail-content">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名：</label>
+                    <div class="layui-input-block">
+                        <input type="text" lay-verify="title" autocomplete="off" class="layui-input" th:value="${session.user.nickname}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名：</label>
+                    <div class="layui-input-block">
+                        <input type="text" lay-verify="title" autocomplete="off" class="layui-input" th:value="${session.user.username}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">角色：</label>
+                    <div class="layui-input-block">
+                        <input type="text" lay-verify="title" autocomplete="off" class="layui-input" th:value="${session.role.roleName}">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="change-password">
+            <button type="button" class="layui-btn layui-btn-sm layui-btn-danger">修改密码</button>
+        </div>
+    </div>
+    <div id="init-content">
+        <h1>URMS</h1>
+        <h2>User Role Management System</h2>
+    </div>
+    <!--tab标签-->
+    <div id="tab-content" class="layui-tab layui-tab-brief" lay-filter="main-tab" lay-allowclose="true">
+        <ul class="layui-tab-title"></ul>
+        <div class="layui-tab-content"></div>
+    </div>
+
+    <!-- hidden -->
+    <input id="user-id" type="hidden" th:value="${session.user.userId}">
+</body>
+</html>

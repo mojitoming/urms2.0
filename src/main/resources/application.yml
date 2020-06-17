@@ -1,0 +1,68 @@
+#debug: true
+server:
+  servlet:
+    application-display-name: URMS
+    context-path: /urms
+
+info:
+  version: "@project.version@"
+
+cas:
+  url:
+    server: http://114.242.246.233:8000
+    client: http://127.0.0.1:8089
+
+spring:
+  profiles:
+    include: devdb
+  application:
+    name: ${server.servlet.application-display-name}
+  # 模版引擎
+  thymeleaf:
+    # 关闭缓存，及时刷新
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    check-template: true
+    check-template-location: true
+    encoding: UTF-8
+    mode: LEGACYHTML5
+    servlet:
+      content-type: text/html
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  output:
+    ansi:
+      enabled: always
+  mvc:
+    # 默认值为 classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+    static-path-pattern: /**
+  cas:
+    # 监听所有退出的接口
+    sign-out-filters: /*
+    # 需要拦截的认证的接口
+    auth-filters: /*
+    validate-filters: /*
+    request-wrapper-filters: /*
+    assertion-filters: /*
+    # 忽略拦截的接口
+    ignore-filters: /test
+    cas-server-login-url: ${cas.url.server}/cas/login
+    cas-server-url-prefix: ${cas.url.server}/cas/
+    redirect-after-validation: true
+    use-session: true
+    server-name: ${cas.url.client}
+
+# mybatis-plus配置,主要配置xml文件的路径(如果不用mybatis-plus可以省略此配置)
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*Mapper.xml
+  configuration:
+    # 增加 SQL 日志打印，生产环境去掉
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  config: classpath:log4j2.xml
+
+session:
+  timeout: 600

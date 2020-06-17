@@ -1,0 +1,123 @@
+.layui-tab {
+    margin-left: 200px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.layui-tab-content {
+    padding: 2px 2px 0 2px;
+}
+
+#sidebar {
+    border-radius: 0;
+}
+
+iframe {
+    width: 100%;
+}
+
+#system-control {
+    text-align: center;
+    bottom: 30px;
+    position: absolute;
+    width: 200px;
+    z-index: 1000
+}
+
+#system-control > div {
+    cursor: pointer;
+}
+
+#logout {
+    width: 70px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#info {
+    margin-bottom: 10px;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cursor-in {
+    color: white;
+}
+
+.cursor-out {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.iconfont {
+    margin-left: 5px;
+}
+
+#info-detail {
+    position: absolute;
+    left: -40px;
+    bottom: 0;
+    width: 240px;
+    height: 260px;
+    background-color: #4f5c70;
+    border-radius: 3px;
+}
+
+#triangle {
+    display: none;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-right: 10px solid #4f5c70;
+    border-bottom: 10px solid transparent;
+    position: absolute;
+    left: -10px;
+    bottom: 58px;
+    z-index: 1000;
+}
+
+#info-detail-content {
+    color: white;
+    padding-top: 20px;
+}
+
+#info-detail-content input {
+    border-width: 0;
+    background-color: #4f5c70;
+    color: white;
+    padding-left: 0;
+}
+
+#info-detail-content .layui-form-label {
+    padding-right: 0;
+}
+
+#info-detail-content .layui-input-block {
+    margin-left: 100px;
+}
+
+#info-detail-content .layui-form-item {
+    margin-bottom: 0;
+}
+
+#change-password {
+    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+}
+
+#change-password > button {
+    width: 80%;
+}
+
+#init-content {
+    margin-top: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#tab-content {
+    display: none;
+}

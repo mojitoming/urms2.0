@@ -1,0 +1,41 @@
+.layui-nav {
+    border-radius: 0;
+}
+
+/* 数据表格 表头剧中 */
+.layui-table-box .layui-table-header .layui-table th div {
+    text-align: center;
+}
+
+/* 必填项 icon */
+.icon-bitianxiang- {
+    color: red;
+}
+
+/* 三级菜单样式 */
+.third-menu {
+    background-color: #3b506c;
+}
+
+.third-menu .layui-nav-item {
+    line-height: 40px;
+}
+
+body .modify-class .layui-layer-btn0,
+body .delete-class .layui-layer-btn0 {
+    background-color: white;
+    color: black;
+    border-color: #dedede;
+}
+
+body .modify-class .layui-layer-btn1 {
+    background-color: rgb(30, 159, 255);
+    color: white;
+    border-color: rgb(30, 159, 255);
+}
+
+body .delete-class .layui-layer-btn1 {
+    background-color: #FF5722;
+    color: white;
+    border-color: #FF5722;
+}

@@ -1,0 +1,18 @@
+[17:51:07:121] [ERROR] - com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine.batchOutput(AbstractTemplateEngine.java:131) - 无法创建文件，请检查配置信息！
+freemarker.template.TemplateNotFoundException: Template not found for name "/static/templates/mapper.xml.ftl".
+The name was interpreted by this TemplateLoader: ClassTemplateLoader(resourceLoaderClass=com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine, basePackagePath="/").
+	at freemarker.template.Configuration.getTemplate(Configuration.java:2869) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.template.Configuration.getTemplate(Configuration.java:2671) ~[freemarker-2.3.30.jar:2.3.30]
+	at com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine.writer(FreemarkerTemplateEngine.java:50) ~[mybatis-plus-generator-3.3.2.jar:3.3.2]
+	at com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine.batchOutput(AbstractTemplateEngine.java:81) [mybatis-plus-generator-3.3.2.jar:3.3.2]
+	at com.baomidou.mybatisplus.generator.AutoGenerator.execute(AutoGenerator.java:106) [mybatis-plus-generator-3.3.2.jar:3.3.2]
+	at com.dhcc.urms.common.codegen.CodeGenerator.main(CodeGenerator.java:144) [classes/:?]
+[17:52:49:822] [ERROR] - com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine.batchOutput(AbstractTemplateEngine.java:131) - 无法创建文件，请检查配置信息！
+freemarker.template.TemplateNotFoundException: Template not found for name "/static/templates/mapper.xml.ftl".
+The name was interpreted by this TemplateLoader: ClassTemplateLoader(resourceLoaderClass=com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine, basePackagePath="/").
+	at freemarker.template.Configuration.getTemplate(Configuration.java:2869) ~[freemarker-2.3.30.jar:2.3.30]
+	at freemarker.template.Configuration.getTemplate(Configuration.java:2671) ~[freemarker-2.3.30.jar:2.3.30]
+	at com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine.writer(FreemarkerTemplateEngine.java:50) ~[mybatis-plus-generator-3.3.2.jar:3.3.2]
+	at com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine.batchOutput(AbstractTemplateEngine.java:81) [mybatis-plus-generator-3.3.2.jar:3.3.2]
+	at com.baomidou.mybatisplus.generator.AutoGenerator.execute(AutoGenerator.java:106) [mybatis-plus-generator-3.3.2.jar:3.3.2]
+	at com.dhcc.urms.common.codegen.CodeGenerator.main(CodeGenerator.java:144) [classes/:?]
