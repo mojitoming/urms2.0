@@ -18,7 +18,7 @@ spring:
       idle-timeout: 500000
       max-lifetime: 540000
       connection-timeout: 60000
-      connection-test-query: SELECT 1
+      connection-test-query: SELECT 1 FROM DUAL
   # Redis 配置
   redis:
     # Redis数据库索引（默认为0）

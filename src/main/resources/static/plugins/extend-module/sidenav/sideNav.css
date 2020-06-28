@@ -1,0 +1,76 @@
+.gms-keyword-search {
+    height: 40px;
+    background-color: rgba(211, 211, 211, 0.6);
+    display: flex;
+    align-items: center;
+}
+
+.gms-keyword-search input {
+    width: 80%;
+    height: 70%;
+    float: left;
+}
+
+#search-btn, #add-btn {
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+#search-btn, #add-btn:hover {
+    cursor: pointer;
+}
+
+#left-list {
+    overflow-y: overlay;
+    overflow-x: auto;
+    height: 100%;
+    border-width: 0;
+}
+
+.layui-colla-title {
+    -moz-user-select: none; /*火狐*/
+    -webkit-user-select: none; /*webkit浏览器*/
+    -ms-user-select: none; /*IE10*/
+    -khtml-user-select: none; /*早期浏览器*/
+    user-select: none;
+}
+
+.layui-colla-title .colla-title {
+    width: 60%;
+    float: left;
+}
+
+.layui-colla-title .colla-icon {
+    position: absolute;
+    right: 15px;
+}
+
+.layui-colla-title .colla-icon span {
+    font-size: 20px;
+}
+
+.layui-colla-title .icon-operation span:hover {
+    color: deepskyblue;
+}
+
+.layui-colla-content > p {
+    margin-bottom: 6px;
+}
+
+body .demo-class .layui-layer-title {
+    background-color: rgb(43, 161, 252);
+    color: white;
+}
+
+body .demo-class .layui-layer-btn0 {
+    background-color: white;
+    color: black;
+    border-color: #dedede;
+}
+
+body .demo-class .layui-layer-btn1 {
+    background-color: rgb(30, 159, 255);
+    color: white;
+    border-color: rgb(30, 159, 255);
+}

@@ -156,34 +156,10 @@ const getMenuWidth = function (level) {
 }
 
 const $MENU_WH = {
-    firstMenuHeight() {
-        return window.top.document.getElementsByClassName("first-menu")[0].offsetHeight;
+    get width() {
+        return window.top.document.getElementById("sidebar").offsetWidth;
     },
-    secondMenuWidth() {
-        let firstIframe = window.top.document.getElementsByTagName("iframe")[0];
-        let width = 0;
-        if (firstIframe) {
-            let secondMenu = firstIframe.contentWindow.document.getElementsByClassName('second-menu')[0];
-            if (secondMenu) {
-                width = secondMenu.offsetWidth;
-            }
-        }
-
-        return width;
-    },
-    thirdMenuHeight() {
-        let firstIframe = window.top.document.getElementsByTagName("iframe")[0];
-        let height = 0;
-        if (firstIframe) {
-            let secondIframe = firstIframe.contentWindow.document.getElementsByTagName('iframe')[0];
-            if (secondIframe) {
-                let thirdMenu = secondIframe.contentWindow.document.getElementsByClassName('third-menu')[0];
-                if (thirdMenu) {
-                    height = thirdMenu.offsetHeight;
-                }
-            }
-        }
-
-        return height;
+    get height() {
+        return window.top.document.getElementById("sidebar").offsetHeight;
     }
 };

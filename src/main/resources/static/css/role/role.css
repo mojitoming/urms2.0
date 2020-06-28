@@ -1,0 +1,15 @@
+#module-tree-cover {
+    border: 1px solid #e6e6e6;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#module-tree {
+    overflow: auto;
+    width: 100% !important;
+    margin-bottom: 10px;
+}
+
+.layui-layer-loading {
+    left: 86% !important;
+}

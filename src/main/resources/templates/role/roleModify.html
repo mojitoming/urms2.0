@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="'../static/common/common_js_css' :: common_js_css(~{::head/title}, ~{::head/link}, ~{::head/script})">
+    <title>Dict Management</title>
+    <link rel="stylesheet" th:href="@{/css/role/roleModify.css}">
+    <script th:src="@{/js/role/roleModify.js}"></script>
+</head>
+<body>
+    <div class="layui-fluid">
+        <form action="" class="layui-form" lay-filter="modify-form">
+            <div class="layui-form-item">
+                <div id="role-name-cover" class="layui-inline">
+                    <label class="layui-form-label"><span class="iconfont icon-bitianxiang-"></span>角色名称</label>
+                    <div class="layui-input-inline">
+                        <input type="hidden" name="roleId">
+                        <input type="text" name="roleName" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div id="odn-cover" class="layui-inline">
+                    <label class="layui-form-label"><span class="iconfont icon-bitianxiang-"></span>优先级</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="priority" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">描述</label>
+                <div class="layui-input-block">
+                    <textarea name="roleDesc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否启用</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" checked="" name="status" lay-skin="switch" lay-filter="switchStatus" lay-text="ON|OFF">
+                </div>
+            </div>
+
+            <div class="layui-form-item hide-button">
+                <div class="layui-input-block">
+                    <button id="submit-modify" class="layui-btn" lay-submit lay-filter="submit-modify">立即提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

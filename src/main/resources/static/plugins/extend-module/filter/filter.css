@@ -1,0 +1,161 @@
+#filter-container {
+    width: 400px;
+    position: fixed;
+    z-index: 999;
+    margin-left: 15px;
+    margin-top: 10px;
+}
+
+.filter-head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.filter-head > input {
+    letter-spacing: 1px;
+    color: gray;
+}
+
+.filter-body {
+    display: none;
+    border: 1px solid #e6e6e6;
+    width: 95%;
+    height: 360px;
+    border-radius: 2px;
+    box-shadow: 5px 5px 5px #e6e6e6;
+    background-color: white;
+}
+
+.first-line,
+.first-line .layui-inline {
+    margin-bottom: 0 !important;
+}
+
+.add-icon {
+    margin-left: 310px !important;
+}
+
+.filter-head > span.icon-guolv {
+    font-size: 20px;
+    cursor: pointer;
+    color: gray;
+    margin-left: 2px;
+}
+
+.filter-head > input {
+    height: 28px;
+    cursor: pointer;
+}
+
+.icon-zengjia {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.filter-body .layui-form-item {
+    margin-bottom: 5px;
+}
+
+.filter-body .layui-form-mid {
+    width: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.filter-body .layui-form-checkbox {
+    margin-top: 0 !important;
+}
+
+.filter-body .layui-input {
+    padding-right: 0;
+}
+
+.filter-body .layui-input-inline {
+    width: 90px;
+    margin-right: 0;
+}
+
+.filter-body > form {
+    height: 100%;
+}
+
+.filter-body .form-body {
+    height: 78%;
+    /*noinspection CssInvalidPropertyValue*/
+    overflow-y: overlay;
+    /* TODO overlay 目前只支持 chrome，应考虑其他方案 */
+    overflow-x: auto;
+}
+
+.filter-body .delete-icon {
+    float: right;
+    margin-right: 17px;
+}
+
+.kw-delete {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.filter-body .keyword-list {
+    /*position: absolute;*/
+}
+
+.filter-body .keyword-value {
+    margin-right: 0;
+    width: 53%;
+    /*position: absolute;*/
+    /*left: 130px;*/
+}
+
+.checkbox {
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox > input {
+    width: 20px;
+}
+
+.checkbox .layui-form-checkbox {
+    padding-left: 22px;
+    width: 62px;
+}
+
+.radio {
+    margin-left: 0;
+}
+
+.filter-body .number {
+    width: 41%;
+}
+
+input[type="number"] {
+    text-align: right;
+}
+
+.filter-btn {
+    float: right;
+    margin-top: 5px;
+    margin-right: 15px;
+}
+
+.filter-body .date-range,
+.filter-body .year-range,
+.filter-body .text {
+    width: 100% !important;
+}
+
+.layui-form-selected dl {
+    position: fixed;
+    min-width: 20%;
+    width: 200px;
+}
+
+xm-select > .xm-body {
+    position: fixed !important;
+    width: 300px !important;
+}

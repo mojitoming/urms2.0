@@ -7,21 +7,20 @@
 </head>
 <body>
     <div class="layui-fluid">
-        <table id="data-table" class="layui-hide" lay-filter="data-table"></table>
-
-        <script type="text/html" id="toolbar-filter">
-            <button id="add-item" class="layui-btn layui-btn-sm" lay-event="add-item">新建</button>
-            <button id="del-items" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="add-item">批量删除</button>
-        </script>
-
-        <script type="text/html" id="op-col">
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant">
-                <i class="layui-icon layui-icon-auz"></i>
-                功能授权
-            </a>
-            <a class="layui-btn layui-btn-xs" lay-event="edit-item">编辑</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit-item">编辑</a>
-        </script>
+        <div class="layui-row">
+            <div class="layui-col-md9">
+                <div id="dt-cover"></div>
+            </div>
+            <div class="layui-col-md3">
+                <div id="module-tree-cover">
+                    <ul id="module-tree" class="dtree" data-id="-1"></ul>
+                    <div class="layui-btn-group">
+                        <button id="save" type="button" class="layui-btn layui-btn-sm layui-btn-normal layui-btn-disabled" disabled="disabled">保存</button>
+                        <button id="restore" type="button" class="layui-btn layui-btn-sm layui-btn-warm layui-btn-disabled" disabled="disabled">还原</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

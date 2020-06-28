@@ -26,13 +26,8 @@ public class IndexController {
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
-    @Value("${session.timeout}")
-    private int timeout;
-
     @RequestMapping(value = {"/", "/index"})//新版首页
-    public String index(HttpSession session) {
-        session.setMaxInactiveInterval(timeout);
-
+    public String index() {
         return "index/index";
     }
 

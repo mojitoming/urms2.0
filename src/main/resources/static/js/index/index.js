@@ -47,6 +47,8 @@ layui.use(['element', 'layer', 'form'], function () {
                 //如果点击左侧菜单栏所传入的 id 在右侧 tab 项中的 lay-id 属性可以找到，则说明该 tab 项已经打开
                 if ($(this).attr("lay-id") === tabData.attr("data-id")) {
                     isData = true;
+
+                    return false;
                 }
             });
             if (isData === false) {

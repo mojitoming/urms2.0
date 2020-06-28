@@ -11,4 +11,9 @@ public class RoleController {
     public String role() {
         return "role/role";
     }
+
+    @RequestMapping("/modify")
+    public String modify() {
+        return "role/roleModify";
+    }
 }

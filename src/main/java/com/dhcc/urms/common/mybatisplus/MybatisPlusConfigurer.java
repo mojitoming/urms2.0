@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan("com.dhcc.drgmifs.*.mapper")
+@MapperScan("com.dhcc.urms.*.mapper")
 public class MybatisPlusConfigurer {
 
     @Bean

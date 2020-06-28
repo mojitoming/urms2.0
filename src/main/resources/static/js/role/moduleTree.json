@@ -1,0 +1,62 @@
+{
+  "status": {
+    "code": 200,
+    "message": "操作成功"
+  },
+  "data": [
+    {
+      "id": "0",
+      "title": "模块树",
+      "parentId": "-1",
+      "checkArr": "0"
+    },
+    {
+      "id": "10000006",
+      "title": "权限管理系统",
+      "parentId": "0",
+      "checkArr": "0"
+    },
+    {
+      "id": "10000021",
+      "title": "医疗保障基金 DRG 结算子系统",
+      "parentId": "0",
+      "checkArr": "0"
+    },
+    {
+      "id": "10000007",
+      "title": "模块管理",
+      "parentId": "10000006",
+      "checkArr": "0"
+    },
+    {
+      "id": "10000008",
+      "title": "用户管理",
+      "parentId": "10000006",
+      "checkArr": "0"
+    },
+    {
+      "id": "10000022",
+      "title": "主页",
+      "parentId": "10000021",
+      "checkArr": "0"
+    },
+    {
+      "id": "10000023",
+      "title": "病案填报",
+      "parentId": "10000021",
+      "checkArr": "0"
+    },
+    {
+      "id": "10000024",
+      "title": "结算管理",
+      "parentId": "10000021",
+      "checkArr": "0"
+    },
+    {
+      "id": "10000014",
+      "title": "项目付费方案",
+      "parentId": "10000024",
+      "checkArr": "0"
+    }
+  ]
+}
