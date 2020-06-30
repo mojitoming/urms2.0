@@ -13,9 +13,9 @@ public class IndexRest {
 
     @GetMapping("/privilege/page")
     public IndexDTO getMenus(IndexDTO dto) {
-        Privilege privilege = PrivilegeBean.getPrivilege();
+        Privilege thePrivilege = PrivilegeBean.getThePrivilege();
 
-        dto.setPageList(privilege.getPage());
+        dto.setPageList(thePrivilege.getPage());
 
         return dto;
     }

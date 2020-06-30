@@ -76,6 +76,9 @@
 		<logger name="com.alibaba.druid" level="INFO"/>
 		<logger name="org.hibernate.validator" level="INFO"/>
 		<logger name="org.thymeleaf" level="INFO"/>
+		<logger name="io.lettuce.core" level="INFO"/>
+		<logger name="io.netty.channel.nio.NioEventLoop" level="INFO"/>
+		<logger name="org.jasig.cas.client" level="INFO"/>
 		<root level="all">
 			<appender-ref ref="Console"/>
 			<appender-ref ref="RollingFileInfo"/>

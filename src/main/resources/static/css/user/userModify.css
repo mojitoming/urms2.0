@@ -1,0 +1,40 @@
+.layui-fluid {
+    margin-top: 20px;
+}
+
+.layui-form-label {
+    width: 86px;
+    padding-left: 8px;
+}
+
+#warrant-dash {
+    margin-right: 0 !important;
+}
+
+.hide-button {
+    display: none;
+}
+
+.layui-disabled {
+    color: rgb(84, 84, 84) !important;
+}
+
+#username-cover > div {
+    width: 158px;
+}
+
+#nickname-cover > div {
+    width: 158px;
+}
+
+#nickname-cover > label {
+    width: 105px;
+}
+
+.layui-form-selected dl {
+    max-height: 260px;
+}
+
+#rest-password {
+    display: none;
+}

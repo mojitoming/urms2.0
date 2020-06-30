@@ -101,7 +101,7 @@ public class RoleBLH implements Serializable {
         roleService.removeByIds(roleIdList);
     }
 
-    /**
+    /*
      * Annotation:
      * 角色 - 模块 授权
      *
@@ -133,6 +133,24 @@ public class RoleBLH implements Serializable {
         rolePrivilegeService.remove(qw);
 
         rolePrivilegeService.saveBatch(rolePrivilegeList);
+    }
+
+    /*
+     * Annotation:
+     * 获取角色树
+     *
+     * @Author: Adam Ming
+     * @Date: Jun 30, 2020 at 9:56:24 AM
+     */
+    public void roleTree(RoleDTO dto) {
+        QueryWrapper<Role> qw = new QueryWrapper<>();
+        qw.eq("STATUS", DictEnum.STATUS_ACTIVE.getValue());
+        qw.apply("NVL(WARRANT_START_DATE, TO_DATE('1970-01-01 00:00:00', 'yyyy-mm-dd hh24:mi:ss')) <= sysdate");
+        qw.apply("NVL(WARRANT_END_DATE, TO_DATE('2050-12-31 23:59:59', 'yyyy-mm-dd hh24:mi:ss')) >= sysdate");
+        qw.orderByAsc("USER_ID");
+        List<Role> roleList = roleService.list(qw);
+
+
     }
 
     // =================== 私有方法分割线 ===================

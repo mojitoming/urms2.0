@@ -65,7 +65,7 @@ layui.extend({
                        <script type="text/html" id="op-col">
                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="grant">
                                 <i class="layui-icon layui-icon-auz"></i>
-                                模块授权
+                                授权
                            </a>
                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit-item">编辑</a>
                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del-item">删除</a>
@@ -121,7 +121,7 @@ layui.extend({
 
                         break;
                     case 'del-items': // 批量删除
-                        _this.deleteItems(obj)
+                        _this.deleteItems(obj, url)
 
                         break;
                 }
@@ -212,7 +212,7 @@ layui.extend({
 
             layer.open(openObj);
         },
-        deleteItems(obj) { // 批量删除
+        deleteItems(obj, url) { // 批量删除
             let checkStatus = table.checkStatus(obj.config.id);
             let checkData = checkStatus.data;
             if (checkData.length === 0) {
@@ -253,7 +253,6 @@ layui.extend({
                     });
 
                     let data = JSON.stringify(checkData);
-                    let url = $WEB_ROOT_PATH + '/role-api/roles';
                     $.ajax({
                         type: 'DELETE',
                         url: url,

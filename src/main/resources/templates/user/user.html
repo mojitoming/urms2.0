@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="'../static/common/common_js_css' :: common_js_css(~{::head/title}, ~{::head/link}, ~{::head/script})">
+    <title>Medical Insurance Fee System</title>
+    <link rel="stylesheet" th:href="@{/css/user/user.css}">
+    <script th:src="@{/js/user/user.js}"></script>
+</head>
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div class="layui-col-md9">
+                <div id="dt-cover"></div>
+            </div>
+            <div class="layui-col-md3">
+                <div id="module-tree-cover">
+                    <ul id="module-tree" class="dtree" data-id="-1"></ul>
+                    <div class="layui-btn-group">
+                        <button id="save" type="button" class="layui-btn layui-btn-sm layui-btn-normal layui-btn-disabled" disabled="disabled">保存</button>
+                        <button id="restore" type="button" class="layui-btn layui-btn-sm layui-btn-warm layui-btn-disabled" disabled="disabled">还原</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

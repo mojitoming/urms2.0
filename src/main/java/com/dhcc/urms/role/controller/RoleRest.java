@@ -3,6 +3,7 @@ package com.dhcc.urms.role.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dhcc.urms.common.entity.DTreeVO;
 import com.dhcc.urms.common.entity.MyPage;
 import com.dhcc.urms.role.blh.RoleBLH;
 import com.dhcc.urms.role.dto.RoleDTO;
@@ -20,7 +21,7 @@ public class RoleRest {
     private RoleBLH roleBLH;
 
     @Resource
-    private RoleDTO dto;
+    private RoleDTO roleDTO;
 
     @GetMapping("/roles")
     public MyPage findRole(RoleDTO dto) {
@@ -28,39 +29,39 @@ public class RoleRest {
     }
 
     @DeleteMapping("/roles")
-    public RoleDTO deleteItems(@RequestBody JSONArray jsonArray) {
+    public RoleDTO deleteRoles(@RequestBody JSONArray jsonArray) {
         List<Role> roleList = jsonArray.toJavaList(Role.class);
-        dto.setRoleList(roleList);
-        roleBLH.deleteRoles(dto);
+        roleDTO.setRoleList(roleList);
+        roleBLH.deleteRoles(roleDTO);
 
-        return dto;
+        return roleDTO;
     }
 
     @PostMapping("/role/modify")
     public RoleDTO addRole(@RequestBody JSONObject jsonObject) {
         Role role = JSON.toJavaObject(jsonObject, Role.class);
-        dto.setRole(role);
-        roleBLH.addRole(dto);
+        roleDTO.setRole(role);
+        roleBLH.addRole(roleDTO);
 
-        return dto;
+        return roleDTO;
     }
 
     @PutMapping("/role/modify")
     public RoleDTO updateRole(@RequestBody JSONObject jsonObject) {
         Role role = JSON.toJavaObject(jsonObject, Role.class);
-        dto.setRole(role);
-        roleBLH.updateRole(dto);
+        roleDTO.setRole(role);
+        roleBLH.updateRole(roleDTO);
 
-        return dto;
+        return roleDTO;
     }
 
     @DeleteMapping("/role/modify")
     public RoleDTO deleteRole(@RequestBody JSONObject jsonObject) {
         Role role = JSON.toJavaObject(jsonObject, Role.class);
-        dto.setRole(role);
-        roleBLH.deleteRole(dto);
+        roleDTO.setRole(role);
+        roleBLH.deleteRole(roleDTO);
 
-        return dto;
+        return roleDTO;
     }
 
     /*
@@ -74,6 +75,19 @@ public class RoleRest {
     public RoleDTO roleModuleGrant(@RequestBody JSONArray jsonArray) {
         roleBLH.roleModuleGrant(jsonArray);
 
-        return dto;
+        return roleDTO;
+    }
+
+    /*
+     * Annotation:
+     * 角色树
+     *
+     * @Author: Adam Ming
+     * @Date: Jun 30, 2020 at 9:55:35 AM
+     */
+    public DTreeVO roleTree(RoleDTO dto) {
+
+
+        return dto.getdTreeVO();
     }
 }

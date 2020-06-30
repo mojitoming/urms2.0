@@ -13,6 +13,7 @@ public abstract class BaseAbstractDTO implements Serializable {
     private static final long serialVersionUID = 6218367470505686397L;
 
     private PageModel pageModel;
+    private String msg; // 说明信息
 
     public PageModel getPageModel() {
         return pageModel;
@@ -20,5 +21,13 @@ public abstract class BaseAbstractDTO implements Serializable {
 
     public void setPageModel(PageModel pageModel) {
         this.pageModel = pageModel;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

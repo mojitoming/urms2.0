@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="'../static/common/common_js_css' :: common_js_css(~{::head/title}, ~{::head/link}, ~{::head/script})">
+    <title>Dict Management</title>
+    <link rel="stylesheet" th:href="@{/css/user/userModify.css}">
+    <script th:src="@{/js/user/userModify.js}"></script>
+</head>
+<body>
+    <div class="layui-fluid">
+        <form action="" class="layui-form" lay-filter="modify-form">
+            <div class="layui-form-item">
+                <div id="username-cover" class="layui-inline">
+                    <label class="layui-form-label"><span class="iconfont icon-bitianxiang-"></span>用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="hidden" name="userId">
+                        <input type="text" name="username" lay-verify="required|repeated" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div id="nickname-cover" class="layui-inline">
+                    <label class="layui-form-label"><span class="iconfont icon-bitianxiang-"></span>昵称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="nickname" lay-verify="required" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <div class="layui-inline">
+                    <label class="layui-form-label">有效起始日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="warrant-start-date" name="warrantStartDate" placeholder="yyyy-MM-dd HH:mm:ss">
+                    </div>
+                </div>
+                <div class="layui-inline" id="warrant-dash">
+                    <div class="layui-form-mid">-</div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">有效结束日期</label>
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" id="warrant-end-date" name="warrantEndDate" placeholder="yyyy-MM-dd HH:mm:ss">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">是否启用</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" checked="" name="status" lay-skin="switch" lay-filter="switchStatus" lay-text="ON|OFF">
+                    </div>
+                </div>
+                <div class="layui-inline" id="rest-password">
+                    <label class="layui-form-label">是否重置密码</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="resetPassword" lay-skin="switch" lay-filter="switchStatus" lay-text="ON|OFF">
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-form-item hide-button">
+                <div class="layui-input-block">
+                    <button id="submit-modify" class="layui-btn" lay-submit lay-filter="submit-modify">立即提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
