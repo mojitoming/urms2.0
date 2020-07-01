@@ -75,26 +75,25 @@ layui.extend({
                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit-item">编辑</a>
                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del-item">删除</a>
                        </script>`;
-            let mainDom = `<div class="layui-row"> 
-                              <div class="layui-col-md9">  
-                                  <div id="dt-cover">${dtDom}</div>  
-                              </div>  
-                              <div class="layui-col-md3">  
-                                  <div id="right-tree-cover">  
+            let mainDom = `<div class="layui-fluid">
+                               <div class="layui-row"> 
+                                  <div id="dt-cover" class="layui-col-md9">  
+                                      ${dtDom}
+                                  </div>  
+                                  <div id="right-tree-cover" class="layui-col-md3">  
                                       <ul id="right-tree" class="dtree" data-id="-1"></ul>  
                                       <div class="layui-btn-group">  
                                           <button id="save" type="button" class="layui-btn layui-btn-sm layui-btn-normal layui-btn-disabled" disabled="disabled">保存</button>  
                                           <button id="restore" type="button" class="layui-btn layui-btn-sm layui-btn-warm layui-btn-disabled" disabled="disabled">还原</button>  
                                       </div>  
-                                  </div>  
-                              </div> 
+                                  </div> 
+                               </div>
                            </div>`
             $(elem).html(mainDom);
 
             (() => {
                 // div#right-tree 高度自适应
                 let winHeight = $(window).height();
-                $('#right-tree-cover').height(winHeight - 2);
                 $('#right-tree').height(winHeight - 2 - 25 - 10 - 30);
             })();
 
@@ -184,6 +183,9 @@ layui.extend({
                 checkbar: true,
                 checkbarType: rightTree.checkbarType,
                 menubar: true,
+                request: {
+                    'status': 'ACTIVE'
+                },
                 menubarTips: {
                     group: ["moveDown", "moveUp", "refresh", "searchNode"]
                 },
@@ -399,7 +401,9 @@ layui.extend({
         rightTreeReload(data) {
             if (!data) {
                 rTree.reload({
-                    request: {}
+                    request: {
+                        'status': 'ACTIVE'
+                    }
                 });
 
                 this.treeBtnDisable();
@@ -411,7 +415,8 @@ layui.extend({
                 rTree.reload({
                     request: {
                         'roleId': data.roleId,
-                        'roleName': data.roleName
+                        'roleName': data.roleName,
+                        'status': 'ACTIVE'
                     }
                 });
             } else if (data.userId && data.nickname) {
@@ -419,11 +424,14 @@ layui.extend({
                     request: {
                         'userId': data.userId,
                         'nickname': data.nickname,
+                        'status': 'ACTIVE'
                     }
                 });
             } else {
                 rTree.reload({
-                    request: {}
+                    request: {
+                        'status': 'ACTIVE'
+                    }
                 });
             }
 

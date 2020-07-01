@@ -3,11 +3,10 @@ package com.dhcc.urms.module.blh;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dhcc.urms.common.entity.DTreeNodeVO;
 import com.dhcc.urms.common.entity.DTreeVO;
-import com.dhcc.urms.common.entity.DictEnum;
 import com.dhcc.urms.module.dto.ModuleDTO;
 import com.dhcc.urms.module.entity.Module;
-import com.dhcc.urms.roleprivilege.entity.RolePrivilege;
 import com.dhcc.urms.module.service.IModuleService;
+import com.dhcc.urms.roleprivilege.entity.RolePrivilege;
 import com.dhcc.urms.roleprivilege.service.IRolePrivilegeService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -45,7 +44,9 @@ public class ModuleBLH implements Serializable {
      */
     public void moduleTree(ModuleDTO dto) {
         QueryWrapper<Module> qwM = new QueryWrapper<>();
-        qwM.eq("STATUS", DictEnum.STATUS_ACTIVE.getValue());
+        if (!StringUtils.isEmpty(dto.getStatus())) {
+            qwM.eq("STATUS", dto.getStatus());
+        }
         qwM.orderByAsc("ODN");
         List<Module> moduleList = moduleService.list(qwM);
 

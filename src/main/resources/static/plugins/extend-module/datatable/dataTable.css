@@ -1,3 +1,7 @@
+html, body, #datatable-cover, .layui-fluid, .layui-row {
+    height: 100%;
+}
+
 #filter-container {
     top: 2px;
 }
@@ -44,8 +48,8 @@ body .delete-class .layui-layer-btn1 {
 
 #right-tree-cover {
     border: 1px solid #e6e6e6;
-    width: 99.8%;
     margin-left: -1px;
+    height: 100%;
 }
 
 #right-tree {

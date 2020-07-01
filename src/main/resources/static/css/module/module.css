@@ -1,0 +1,42 @@
+body {
+    moz-user-select: -moz-none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+html, body, .layui-fluid, .layui-row {
+    height: 100%;
+}
+
+#module-tree-cover {
+    border: 1px solid #e6e6e6;
+    height: 100%;
+    overflow: auto;
+}
+
+#content-cover {
+    border: 1px solid #e6e6e6;
+    margin-left: -1px;
+    height: 100%;
+}
+
+#search-input {
+    width: 240px;
+    height: 20px;
+    float: left;
+    /*margin-left: 20px;*/
+}
+
+input#search-input {
+    font-size: 12px;
+}
+
+input#search-input::-webkit-input-placeholder {
+    /* placeholder字体大小 */
+    font-size: 12px;
+}
+

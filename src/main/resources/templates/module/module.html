@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="'../static/common/common_js_css' :: common_js_css(~{::head/title}, ~{::head/link}, ~{::head/script})">
+    <title>Medical Insurance Fee System</title>
+    <link rel="stylesheet" th:href="@{/css/module/module.css}">
+    <script th:src="@{/js/module/module.js}"></script>
+</head>
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div id="module-tree-cover" class="layui-col-md4">
+                <input id="search-input" type="text" placeholder="模块名..." autocomplete="off" class="layui-input">
+                <ul id="module-tree" class="dtree" data-id="-1"></ul>
+            </div>
+            <div id="content-cover" class="layui-col-md8">
+                content
+            </div>
+        </div>
+    </div>
+</body>
+</html>

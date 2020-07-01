@@ -14,6 +14,7 @@ public abstract class BaseAbstractDTO implements Serializable {
 
     private PageModel pageModel;
     private String msg; // 说明信息
+    private String status;
 
     public PageModel getPageModel() {
         return pageModel;
@@ -29,5 +30,13 @@ public abstract class BaseAbstractDTO implements Serializable {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
