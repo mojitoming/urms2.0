@@ -20,6 +20,7 @@ public interface RoleMapper extends BaseMapper<Role> {
     @Select("SELECT R.*, D.NAME AS STATUS_NAME " +
                 "  FROM T_ROLE R, " +
                 "       (SELECT CODE, NAME FROM T_DICT WHERE CLASS = 'STATUS' AND STATUS = 'ACTIVE') D " +
-                " WHERE R.STATUS = D.CODE(+) ")
+                " WHERE R.STATUS = D.CODE(+) " +
+                " ORDER BY R.PRIORITY ")
     IPage<RoleVO> findRole(Page<?> page);
 }

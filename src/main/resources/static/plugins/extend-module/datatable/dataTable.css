@@ -1,5 +1,5 @@
 #filter-container {
-    top: 12px;
+    top: 2px;
 }
 
 #dt-title {
@@ -40,4 +40,29 @@ body .delete-class .layui-layer-btn1 {
     background-color: #FF5722;
     color: white;
     border-color: #FF5722;
+}
+
+#right-tree-cover {
+    border: 1px solid #e6e6e6;
+    width: 99.8%;
+    margin-left: -1px;
+}
+
+#right-tree {
+    overflow: auto;
+    width: 100% !important;
+    margin-bottom: 10px;
+}
+
+.layui-layer-loading {
+    left: 86% !important;
+}
+
+.dtree-menubar {
+    padding-left: 20px !important;
+    padding-top: 5px;
+}
+
+#dt-cover .layui-table-view {
+    margin: 0;
 }

@@ -192,15 +192,10 @@ public class UserBLH implements Serializable {
      * @Date: Jun 22, 2020 at 5:33:29 PM
      */
     private void convertStatus(User user) {
-        switch (user.getStatus()) {
-            case "on":
-                user.setStatus(DictEnum.STATUS_ACTIVE.getValue());
-
-                break;
-            case "off":
-                user.setStatus(DictEnum.STATUS_INACTIVE.getValue());
-
-                break;
+        if ("on".equals(user.getStatus())) {
+            user.setStatus(DictEnum.STATUS_ACTIVE.getValue());
+        } else {
+            user.setStatus(DictEnum.STATUS_INACTIVE.getValue());
         }
     }
 

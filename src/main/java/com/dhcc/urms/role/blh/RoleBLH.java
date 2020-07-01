@@ -125,10 +125,17 @@ public class RoleBLH implements Serializable {
         List<RolePrivilege> rolePrivilegeList = new ArrayList<>();
         RolePrivilege rolePrivilege;
 
+        String priviIdTemp;
         for (GrantJsonVO grantJsonVO : grantJsonVOList) {
             rolePrivilege = new RolePrivilege();
             rolePrivilege.setRoleId(Long.parseLong(grantJsonVO.getRoleId()));
-            rolePrivilege.setPriviId(grantJsonVO.getNodeId());
+
+            priviIdTemp = grantJsonVO.getNodeId();
+            if ("0".equals(priviIdTemp)) { // 过滤掉树根
+                continue;
+            }
+
+            rolePrivilege.setPriviId(priviIdTemp);
             rolePrivilege.setPriviTypeCode("MODULE");
 
             rolePrivilegeList.add(rolePrivilege);
@@ -199,15 +206,10 @@ public class RoleBLH implements Serializable {
      * @Date: Jun 22, 2020 at 5:33:29 PM
      */
     private void convertStatus(Role role) {
-        switch (role.getStatus()) {
-            case "on":
-                role.setStatus(DictEnum.STATUS_ACTIVE.getValue());
-
-                break;
-            case "off":
-                role.setStatus(DictEnum.STATUS_INACTIVE.getValue());
-
-                break;
+        if ("on".equals(role.getStatus())) {
+            role.setStatus(DictEnum.STATUS_ACTIVE.getValue());
+        } else {
+            role.setStatus(DictEnum.STATUS_INACTIVE.getValue());
         }
     }
 }

@@ -1,18 +1,22 @@
+layui.link(`${$WEB_ROOT_PATH}/plugins/layui_ext/dtree/dtree.css`)
+layui.link(`${$WEB_ROOT_PATH}/plugins/layui_ext/dtree/font/dtreefont.css`)
 layui.link(`${$WEB_ROOT_PATH}/plugins/extend-module/datatable/dataTable.css`);
 layui.extend({
     filter: `{/}${$WEB_ROOT_PATH}/plugins/extend-module/filter/filter`,
     tablePlug: `{/}${$WEB_ROOT_PATH}/plugins/layui_ext/tablePlug/tablePlug`,
-}).define(['table', 'filter', 'tablePlug'], function (exports) {
+    dtree: `{/}${$WEB_ROOT_PATH}/plugins/layui_ext/dtree/dtree`
+}).define(['table', 'filter', 'tablePlug', 'dtree'], function (exports) {
     let table = layui.table,
         filter = layui.filter,
         $ = layui.$,
-        tablePlug = layui.tablePlug;
+        tablePlug = layui.tablePlug,
+        dtree = layui.dtree;
     let isInit = true; // 判断是否第一次 render table
 
     tablePlug.smartReload.enable(true);
 
     let iframeId = $('iframe', parent.document).attr('id');
-    let dataTable;
+    let dataTable, rTree;
     let keywords, withTable;
     let conditions = {};
     let readonly = false;
@@ -23,7 +27,7 @@ layui.extend({
     let obj = {
         init(param) {
             dtTitle = '' || param.title;
-            let elem = param.elem || '#dt-cover';
+            let elem = param.elem || '#datatable-cover';
             let url = param.url;
             let cols = param.cols;
             let where = param.where || {};
@@ -33,6 +37,7 @@ layui.extend({
             status = param.status;
             readonly = param.readonly || false;
             let popup = param.popup || {url: '', width: 0, height: 0};
+            let rightTree = param.rightTree || {url: ''};
             if (!elem) {
                 console.log("Table selector is inevitable!")
                 return false;
@@ -46,13 +51,13 @@ layui.extend({
                 return false;
             }
 
-            this.construct(elem, url, cols, where, popup);
+            this.construct(elem, url, cols, where, popup, rightTree);
 
             return dataTable;
         },
-        construct(elem, url, cols, where, popup) {
+        construct(elem, url, cols, where, popup, rightTree) {
             let _this = this;
-            let mainDom = `
+            let dtDom = `
                        <table id="data-table" class="layui-hide" lay-filter="data-table"></table>
            
                        <script type="text/html" id="toolbar-filter">
@@ -70,7 +75,28 @@ layui.extend({
                            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit-item">编辑</a>
                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del-item">删除</a>
                        </script>`;
+            let mainDom = `<div class="layui-row"> 
+                              <div class="layui-col-md9">  
+                                  <div id="dt-cover">${dtDom}</div>  
+                              </div>  
+                              <div class="layui-col-md3">  
+                                  <div id="right-tree-cover">  
+                                      <ul id="right-tree" class="dtree" data-id="-1"></ul>  
+                                      <div class="layui-btn-group">  
+                                          <button id="save" type="button" class="layui-btn layui-btn-sm layui-btn-normal layui-btn-disabled" disabled="disabled">保存</button>  
+                                          <button id="restore" type="button" class="layui-btn layui-btn-sm layui-btn-warm layui-btn-disabled" disabled="disabled">还原</button>  
+                                      </div>  
+                                  </div>  
+                              </div> 
+                           </div>`
             $(elem).html(mainDom);
+
+            (() => {
+                // div#right-tree 高度自适应
+                let winHeight = $(window).height();
+                $('#right-tree-cover').height(winHeight - 2);
+                $('#right-tree').height(winHeight - 2 - 25 - 10 - 30);
+            })();
 
             dataTable = table.render({
                 elem: '#data-table',
@@ -78,7 +104,7 @@ layui.extend({
                 toolbar: '#toolbar-filter', //开启头部工具栏，并为其绑定左侧模板
                 defaultToolbar: ['filter'],
                 cellMinWidth: 100,
-                height: 'full-20',
+                height: 'full-0',
                 cols: cols,
                 where: where,
                 page: true,
@@ -128,7 +154,15 @@ layui.extend({
             });
 
             // 监听行工具事件
+            let rawGrantData;
             table.on('tool(data-table)', function (obj) {
+                if (obj.event === 'grant') {
+                    rawGrantData = obj.data;
+                    _this.rightTreeReload(rawGrantData);
+
+                    return false;
+                }
+
                 _this.openPopup(popupUrl, popupWidth, popupHeight, obj.event, obj.data);
             });
 
@@ -136,6 +170,77 @@ layui.extend({
             table.on('rowDouble(data-table)', function (obj) {
                 _this.openPopup(popupUrl, popupWidth, popupHeight, 'show-item', obj.data);
             });
+
+            /**
+             * right tree
+             */
+            rTree = dtree.render({
+                elem: '#right-tree',
+                ficon: '-1',
+                url: rightTree.url,
+                method: 'GET',
+                dataFormat: 'list',
+                line: true,
+                checkbar: true,
+                checkbarType: rightTree.checkbarType,
+                menubar: true,
+                menubarTips: {
+                    group: ["moveDown", "moveUp", "refresh", "searchNode"]
+                },
+                done: function (res, $ul, first) {
+                    if (first) {
+                        if (rightTree.checkbarType === 'all') {
+                            dtree.initAllCheck("right-tree");
+                        }
+                        if (rightTree.checkbarType === 'no-all') {
+                            dtree.initNoAllCheck("right-tree");
+                        }
+                    }
+                }
+            });
+            let $rTreeSaveBtn = $('#right-tree-cover #save');
+            let $rTreeRestoreBtn = $('#right-tree-cover #restore');
+
+            // 保存
+            $rTreeSaveBtn.on('click', function (e) {
+                let checkbarNodes = rTree.getCheckbarNodesParam();
+                let data = JSON.stringify(checkbarNodes);
+                $.ajax({
+                    type: 'post',
+                    url: rightTree.saveUrl,
+                    async: true,
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: data,
+                    success: function (response, status, xhr) {
+                        // 剧中显示
+                        // 用于计算弹出层坐标位置
+                        let windowW = $(window).width();
+                        let sidebarWidth = $MENU_WH.width;
+                        let msgWidth = 160;
+                        let msgOffsetX = math.evaluate(`${(windowW - msgWidth) / 2 - (sidebarWidth / 2)}`);
+                        layer.msg('授权完成！', {
+                            time: 2000,
+                            area: `${msgWidth}px`,
+                            offset: ['t', `${msgOffsetX}px`]
+                        }, function () {
+                            dataTable.reload();
+                        });
+                    },
+                    error: function (response, status, xhr) {
+                        layer.msg('出现系统错误，请联系管理员处理！');
+                    }
+                });
+
+                e.stopPropagation();
+            });
+
+            // 还原
+            $rTreeRestoreBtn.on('click', function (e) {
+                _this.rightTreeReload(rawGrantData);
+
+                e.stopPropagation();
+            })
         },
         filterInit() { // 加载条件筛选组件
             let paramFilter = {
@@ -147,6 +252,7 @@ layui.extend({
         },
         // 弹出层 新建/修改/删除
         openPopup(url, width, height, event, data) {
+            let _this = this;
             // 水平剧中  x 坐标计算
             let offsetX = math.evaluate(`${(windowW - width) / 2 - (sidebarWidth / 2)}`);
 
@@ -204,6 +310,9 @@ layui.extend({
                 end() {
                     if (layui.dataCarrier.isModified) {
                         dataTable.reload();
+                        if (layui.dataCarrier.event === 'del-item') {
+                            _this.rightTreeReload();
+                        }
                     }
 
                     dataCarrier.empty();
@@ -213,6 +322,7 @@ layui.extend({
             layer.open(openObj);
         },
         deleteItems(obj, url) { // 批量删除
+            let _this = this;
             let checkStatus = table.checkStatus(obj.config.id);
             let checkData = checkStatus.data;
             if (checkData.length === 0) {
@@ -272,6 +382,7 @@ layui.extend({
                                 offset: ['t', `${msgOffsetX}px`]
                             }, function () {
                                 dataTable.reload();
+                                _this.rightTreeReload();
                             });
                         },
                         error: function (response, status, xhr) {
@@ -284,6 +395,57 @@ layui.extend({
             dataTable.reload({
                 where: {condJsonStr: conditions}
             });
+        },
+        rightTreeReload(data) {
+            if (!data) {
+                rTree.reload({
+                    request: {}
+                });
+
+                this.treeBtnDisable();
+
+                return false;
+            }
+
+            if (data.roleId && data.roleName) {
+                rTree.reload({
+                    request: {
+                        'roleId': data.roleId,
+                        'roleName': data.roleName
+                    }
+                });
+            } else if (data.userId && data.nickname) {
+                rTree.reload({
+                    request: {
+                        'userId': data.userId,
+                        'nickname': data.nickname,
+                    }
+                });
+            } else {
+                rTree.reload({
+                    request: {}
+                });
+            }
+
+            this.treeBtnEnable()
+        },
+        treeBtnEnable() {
+            let $rTreeSaveBtn = $('#right-tree-cover #save');
+            let $rTreeRestoreBtn = $('#right-tree-cover #restore');
+
+            $rTreeSaveBtn.removeClass('layui-btn-disabled');
+            $rTreeSaveBtn.removeAttr('disabled');
+            $rTreeRestoreBtn.removeClass('layui-btn-disabled');
+            $rTreeRestoreBtn.removeAttr('disabled');
+        },
+        treeBtnDisable() {
+            let $rTreeSaveBtn = $('#right-tree-cover #save');
+            let $rTreeRestoreBtn = $('#right-tree-cover #restore');
+
+            $rTreeSaveBtn.addClass('layui-btn-disabled');
+            $rTreeSaveBtn.attr('disabled', 'disabled');
+            $rTreeRestoreBtn.addClass('layui-btn-disabled');
+            $rTreeRestoreBtn.attr('disabled', 'disabled');
         }
     };
 

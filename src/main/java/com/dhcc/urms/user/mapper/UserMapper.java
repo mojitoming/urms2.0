@@ -21,6 +21,7 @@ public interface UserMapper extends BaseMapper<User> {
                 "   U.STATUS, U.CREATE_DATE, U.CREATOR, D.NAME as STATUS_NAME " +
                 "  from T_USER U, " +
                 "       (SELECT CODE, NAME FROM T_DICT WHERE CLASS = 'STATUS' AND STATUS = 'ACTIVE') D " +
-                " where U.STATUS = D.CODE(+)")
+                " where U.STATUS = D.CODE(+) " +
+                " order by U.USER_ID ")
     IPage<UserVO> findUser(Page<?> page);
 }
