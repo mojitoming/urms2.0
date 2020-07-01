@@ -1,4 +1,4 @@
-package com.dhcc.urms.role.entity;
+package com.dhcc.urms.common.entity;
 
 import java.io.Serializable;
 
@@ -13,11 +13,29 @@ import java.io.Serializable;
 public class GrantJsonVO implements Serializable {
     private static final long serialVersionUID = -9033523483151008153L;
 
+    private String userId;
+    private String nickname;
     private String roleId;
     private String roleName;
     private String nodeId;
     private String parentId;
     private String checked;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public String getRoleId() {
         return roleId;

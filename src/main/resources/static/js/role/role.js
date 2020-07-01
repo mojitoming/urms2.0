@@ -187,7 +187,6 @@ layui.extend({
     // 根据角色获取 module tree
     function moduleTreeReload(roleId, roleName) {
         moduleTree.reload({
-            url: treeUrl,
             request: {
                 'roleId': roleId,
                 'roleName': roleName,

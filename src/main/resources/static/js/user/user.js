@@ -12,8 +12,8 @@ layui.extend({
     (() => {
         // div#module-tree 高度自适应
         let winHeight = $(window).height();
-        $('#module-tree-cover').height(winHeight - 22);
-        $('#module-tree').height(winHeight - 47 - 40);
+        $('#role-tree-cover').height(winHeight - 22);
+        $('#role-tree').height(winHeight - 47 - 40);
     })();
 
     let cols = [[
@@ -81,24 +81,25 @@ layui.extend({
         }
     };
     dataTable.init(param);
-/*
-    // module tree
-    let treeUrl = $WEB_ROOT_PATH + '/module-api/module-tree';
-    let moduleTree = dtree.render({
-        elem: '#module-tree',
+
+    // role tree
+    let treeUrl = $WEB_ROOT_PATH + '/role-api/role-tree';
+    let roleTree = dtree.render({
+        elem: '#role-tree',
         ficon: '-1',
         url: treeUrl,
         method: 'GET',
         dataFormat: 'list',
         line: true,
         checkbar: true,
-        menubar:true,
-        menubarTips:{
-            group:["moveDown", "moveUp", "refresh", "searchNode"]
+        checkbarType: "no-all",
+        menubar: true,
+        menubarTips: {
+            group: ["moveDown", "moveUp", "refresh", "searchNode"]
         },
         done: function (res, $ul, first) {
             if (first) {
-                dtree.initAllCheck("module-tree"); // 半选初始化
+                dtree.initNoAllCheck("role-tree"); // 半选初始化
             }
         }
     });
@@ -116,15 +117,15 @@ layui.extend({
 
     // 功能授权主逻辑
     // 为了后面还原按钮使用，把 roleId 和 roleName 放在外面
-    let roleIdNow = -1, roleNameNow = '';
-    let $saveBtn = $('#module-tree-cover #save');
-    let $restoreBtn = $('#module-tree-cover #restore');
+    let userIdNow = -1, nicknameNow = '';
+    let $saveBtn = $('#role-tree-cover #save');
+    let $restoreBtn = $('#role-tree-cover #restore');
 
     function grant(obj) { // 角色授权
-        roleIdNow = obj.data.roleId;
-        roleNameNow = obj.data.roleName;
+        userIdNow = obj.data.userId;
+        nicknameNow = obj.data.nickname;
 
-        moduleTreeReload(roleIdNow, roleNameNow);
+        roleTreeReload(userIdNow, nicknameNow);
 
         $saveBtn.removeClass('layui-btn-disabled');
         $saveBtn.removeAttr('disabled');
@@ -133,11 +134,11 @@ layui.extend({
     }
 
     // 复选框点击
-    dtree.on('chooseDone("module-tree")', function (obj) {
-        let flag = dtree.changeCheckbarNodes('module-tree');
+    dtree.on('chooseDone("role-tree")', function (obj) {
+        let flag = dtree.changeCheckbarNodes('role-tree');
         console.log(flag);
         if (flag) {
-            $('#module-tree-cover button').forEach((e) => {
+            $('#role-tree-cover button').forEach((e) => {
                 e.removeClass('layui-btn-disabled');
             });
         }
@@ -146,9 +147,9 @@ layui.extend({
 
     // 保存
     $saveBtn.on('click', function (e) {
-        let checkbarNodes = moduleTree.getCheckbarNodesParam();
+        let checkbarNodes = roleTree.getCheckbarNodesParam();
         let data = JSON.stringify(checkbarNodes);
-        let url = $WEB_ROOT_PATH + '/role-api/module-grant';
+        let url = $WEB_ROOT_PATH + '/user-api/user-grant';
         $.ajax({
             type: 'post',
             url: url,
@@ -156,7 +157,7 @@ layui.extend({
             dataType: 'json',
             contentType: 'application/json',
             data: data,
-            success: function(response, status, xhr) {
+            success: function (response, status, xhr) {
                 // 剧中显示
                 // 用于计算弹出层坐标位置
                 let windowW = $(window).width();
@@ -181,19 +182,19 @@ layui.extend({
 
     // 还原
     $restoreBtn.on('click', function (e) {
-        moduleTreeReload(roleIdNow, roleNameNow);
+        roleTreeReload(userIdNow, nicknameNow);
 
         e.stopPropagation();
     })
 
     // 根据角色获取 module tree
-    function moduleTreeReload(roleId, roleName) {
-        moduleTree.reload({
+    function roleTreeReload(userId, nickname) {
+        roleTree.reload({
             url: treeUrl,
             request: {
-                'roleId': roleId,
-                'roleName': roleName,
+                'userId': userId,
+                'nickname': nickname,
             }
         });
-    }*/
+    }
 });

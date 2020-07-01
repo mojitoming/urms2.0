@@ -23,4 +23,22 @@ public interface IRoleService extends IService<Role> {
      * @Date: Jun 18, 2020 at 11:24:53 AM
      */
     IPage<RoleVO> findRole(RoleDTO dto);
+
+    /*
+     * Annotation:
+     * 删除角色
+     *
+     * @Author: Adam Ming
+     * @Date: Jun 30, 2020 at 4:29:46 PM
+     */
+    void deleteRole(RoleDTO dto);
+
+    /*
+     * Annotation:
+     * 批量删除角色
+     *
+     * @Author: Adam Ming
+     * @Date: Jun 30, 2020 at 4:38:16 PM
+     */
+    void deleteRoles(RoleDTO dto);
 }

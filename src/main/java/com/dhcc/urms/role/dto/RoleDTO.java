@@ -22,6 +22,8 @@ public class RoleDTO extends BaseAbstractDTO {
     private Role role;
     private List<Role> roleList;
     private DTreeVO dTreeVO;
+    private long userId;
+    private String nickname;
 
     public Role getRole() {
         return role;
@@ -45,5 +47,21 @@ public class RoleDTO extends BaseAbstractDTO {
 
     public void setdTreeVO(DTreeVO dTreeVO) {
         this.dTreeVO = dTreeVO;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

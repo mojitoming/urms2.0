@@ -3,21 +3,27 @@ package com.dhcc.urms.role.blh;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.dhcc.urms.common.entity.DTreeNodeVO;
+import com.dhcc.urms.common.entity.DTreeVO;
 import com.dhcc.urms.common.entity.DictEnum;
 import com.dhcc.urms.common.entity.MyPage;
 import com.dhcc.urms.role.dto.RoleDTO;
-import com.dhcc.urms.role.entity.GrantJsonVO;
+import com.dhcc.urms.common.entity.GrantJsonVO;
 import com.dhcc.urms.role.entity.Role;
 import com.dhcc.urms.role.entity.RoleVO;
 import com.dhcc.urms.role.service.IRoleService;
 import com.dhcc.urms.roleprivilege.entity.RolePrivilege;
 import com.dhcc.urms.roleprivilege.service.IRolePrivilegeService;
+import com.dhcc.urms.userrole.entity.UserRole;
+import com.dhcc.urms.userrole.service.IUserRoleService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +42,9 @@ public class RoleBLH implements Serializable {
 
     @Resource
     private IRolePrivilegeService rolePrivilegeService;
+
+    @Resource
+    private IUserRoleService userRoleService;
 
     /*
      * Annotation:
@@ -86,7 +95,7 @@ public class RoleBLH implements Serializable {
      * @Date: Jun 22, 2020 at 3:42:20 PM
      */
     public void deleteRole(RoleDTO dto) {
-        roleService.removeById(dto.getRole().getRoleId());
+        roleService.deleteRole(dto);
     }
 
     /*
@@ -97,8 +106,7 @@ public class RoleBLH implements Serializable {
      * @Date: Jun 22, 2020 at 4:55:15 PM
      */
     public void deleteRoles(RoleDTO dto) {
-        List<Long> roleIdList = dto.getRoleList().stream().map(Role::getRoleId).collect(Collectors.toList());
-        roleService.removeByIds(roleIdList);
+        roleService.deleteRoles(dto);
     }
 
     /*
@@ -143,14 +151,42 @@ public class RoleBLH implements Serializable {
      * @Date: Jun 30, 2020 at 9:56:24 AM
      */
     public void roleTree(RoleDTO dto) {
-        QueryWrapper<Role> qw = new QueryWrapper<>();
-        qw.eq("STATUS", DictEnum.STATUS_ACTIVE.getValue());
-        qw.apply("NVL(WARRANT_START_DATE, TO_DATE('1970-01-01 00:00:00', 'yyyy-mm-dd hh24:mi:ss')) <= sysdate");
-        qw.apply("NVL(WARRANT_END_DATE, TO_DATE('2050-12-31 23:59:59', 'yyyy-mm-dd hh24:mi:ss')) >= sysdate");
-        qw.orderByAsc("USER_ID");
-        List<Role> roleList = roleService.list(qw);
+        QueryWrapper<Role> qwR = new QueryWrapper<>();
+        qwR.eq("STATUS", DictEnum.STATUS_ACTIVE.getValue());
+        qwR.orderByAsc("PRIORITY");
+        List<Role> roleList = roleService.list(qwR);
 
+        // 根据 userId 获取 user-role 对应关系，转为 map
+        QueryWrapper<UserRole> qwUR = new QueryWrapper<>();
+        qwUR.eq("USER_ID", dto.getUserId());
+        List<UserRole> userRoleList = userRoleService.list(qwUR);
+        Map<Long, String> roleMap = userRoleList.stream().collect(Collectors.toMap(UserRole::getRoleId, e -> "1"));
 
+        // 添加一个 root 节点
+        String nickname = dto.getNickname();
+        String rootTitle = "角色树";
+        rootTitle = StringUtils.isEmpty(nickname) ? rootTitle : rootTitle + "-" + nickname;
+
+        DTreeVO dTreeVO = new DTreeVO();
+        DTreeNodeVO dTreeNodeVO = new DTreeNodeVO();
+        dTreeNodeVO.setId("0");
+        dTreeNodeVO.setTitle(rootTitle);
+        dTreeVO.getData().add(dTreeNodeVO);
+
+        String isCheck;
+        for (Role role : roleList) {
+            dTreeNodeVO = new DTreeNodeVO();
+            dTreeNodeVO.setId(role.getRoleId().toString());
+            dTreeNodeVO.setTitle(role.getRoleName());
+            dTreeNodeVO.setParentId("0");
+
+            isCheck = roleMap.get(role.getRoleId()) == null ? "0" : "1";
+            dTreeNodeVO.setCheckArr(isCheck);
+
+            dTreeVO.getData().add(dTreeNodeVO);
+        }
+
+        dto.setdTreeVO(dTreeVO);
     }
 
     // =================== 私有方法分割线 ===================

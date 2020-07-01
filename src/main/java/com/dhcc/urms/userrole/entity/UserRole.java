@@ -1,10 +1,8 @@
 package com.dhcc.urms.userrole.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -16,32 +14,39 @@ import java.time.LocalDateTime;
  * @since 2020-06-30
  */
 @TableName("T_USER_ROLE")
+@KeySequence("SEQ_URMS")
 public class UserRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 表主键
+     * 主键ID
      */
-    @TableField("USER_ID")
-    private BigDecimal userId;
+    @TableId(value = "ID", type = IdType.INPUT)
+    private Long id;
 
     /**
-     * 表主键
+     * 用户ID
+     */
+    @TableField(value = "USER_ID")
+    private Long userId;
+
+    /**
+     * 角色ID
      */
     @TableField("ROLE_ID")
-    private BigDecimal roleId;
+    private Long roleId;
 
     /**
      * 更新时间
      */
-    @TableField("UPDATE_TIME")
+    @TableField(value = "UPDATE_TIME", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     /**
      * 更新人
      */
-    @TableField("UPDATER")
+    @TableField(value = "UPDATER", fill = FieldFill.INSERT_UPDATE)
     private String updater;
 
     /**
@@ -50,20 +55,22 @@ public class UserRole implements Serializable {
     @TableField("IS_DEFAULT")
     private String isDefault;
 
-    public BigDecimal getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(BigDecimal userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
-    public BigDecimal getRoleId() {
+
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(BigDecimal roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
+
     public LocalDateTime getUpdateTime() {
         return updateTime;
     }
@@ -71,6 +78,7 @@ public class UserRole implements Serializable {
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
+
     public String getUpdater() {
         return updater;
     }
@@ -78,6 +86,7 @@ public class UserRole implements Serializable {
     public void setUpdater(String updater) {
         this.updater = updater;
     }
+
     public String getIsDefault() {
         return isDefault;
     }
@@ -89,11 +98,12 @@ public class UserRole implements Serializable {
     @Override
     public String toString() {
         return "UserRole{" +
-            "userId=" + userId +
-            ", roleId=" + roleId +
-            ", updateTime=" + updateTime +
-            ", updater=" + updater +
-            ", isDefault=" + isDefault +
-        "}";
+                   "id=" + id +
+                   ", userId=" + userId +
+                   ", roleId=" + roleId +
+                   ", updateTime=" + updateTime +
+                   ", updater=" + updater +
+                   ", isDefault=" + isDefault +
+                   "}";
     }
 }

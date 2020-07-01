@@ -1,19 +1,27 @@
 package com.dhcc.urms.user.blh;
 
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dhcc.urms.common.entity.CommonParams;
 import com.dhcc.urms.common.entity.DictEnum;
+import com.dhcc.urms.common.entity.GrantJsonVO;
 import com.dhcc.urms.common.entity.MyPage;
-import com.dhcc.urms.common.security.SecurityUtils;
+import com.dhcc.urms.role.entity.Role;
+import com.dhcc.urms.role.service.IRoleService;
 import com.dhcc.urms.user.dto.UserDTO;
 import com.dhcc.urms.user.entity.User;
 import com.dhcc.urms.user.entity.UserVO;
 import com.dhcc.urms.user.service.IUserService;
+import com.dhcc.urms.userrole.entity.UserRole;
+import com.dhcc.urms.userrole.service.IUserRoleService;
+import com.mojitoming.casclient.util.SecurityUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +38,12 @@ public class UserBLH implements Serializable {
 
     @Resource
     private IUserService userService;
+
+    @Resource
+    private IRoleService roleService;
+
+    @Resource
+    private IUserRoleService userRoleService;
 
     /*
      * Annotation:
@@ -88,7 +102,7 @@ public class UserBLH implements Serializable {
      * @Date: Jun 28, 2020 at 2:35:28 PM
      */
     public void deleteUser(UserDTO dto) {
-        userService.removeById(dto.getUser().getUserId());
+        userService.deleteUser(dto);
     }
 
     /*
@@ -99,8 +113,7 @@ public class UserBLH implements Serializable {
      * @Date: Jun 28, 2020 at 2:36:16 PM
      */
     public void deleteUsers(UserDTO dto) {
-        List<Long> userIdList = dto.getUserList().stream().map(User::getUserId).collect(Collectors.toList());
-        userService.removeByIds(userIdList);
+        userService.deleteUsers(dto);
     }
 
     /*
@@ -116,6 +129,57 @@ public class UserBLH implements Serializable {
         int count = userService.count(qw);
 
         dto.setCount(count);
+    }
+
+    /*
+     * Annotation:
+     * 用户 - 角色 授权逻辑
+     *
+     * @Author: Adam Ming
+     * @Date: Jun 30, 2020 at 11:42:55 AM
+     */
+    public void userRoleGrant(JSONArray jsonArray) {
+        List<GrantJsonVO> grantJsonVOList = jsonArray.toJavaList(GrantJsonVO.class);
+        if (grantJsonVOList.size() == 0) {
+            return;
+        }
+
+        // 找优先级最高的角色
+        List<Long> roleIdList = grantJsonVOList.stream().map(e -> Long.parseLong(e.getNodeId())).collect(Collectors.toList());
+        List<Role> roleList = roleService.listByIds(roleIdList);
+        Role topRole = roleList.stream().min(Comparator.comparingLong(Role::getPriority)).orElse(new Role());
+
+        List<UserRole> userRoleList = new ArrayList<>();
+        UserRole userRole;
+
+        long roleIdTemp;
+        for (GrantJsonVO grantJsonVO : grantJsonVOList) {
+            userRole = new UserRole();
+            userRole.setUserId(Long.parseLong(grantJsonVO.getUserId()));
+
+            roleIdTemp = Long.parseLong(grantJsonVO.getNodeId());
+
+            if (roleIdTemp == 0) { // 排除树根
+                continue;
+            }
+
+            userRole.setRoleId(roleIdTemp);
+
+            // 优先级最高的角色设置为默认角色
+            if (roleIdTemp == topRole.getRoleId()) {
+                userRole.setIsDefault("1");
+            }
+
+            userRoleList.add(userRole);
+        }
+
+        // 先删后插 ---> 根据 userId 删除所有 关联的 role，然后再插入上面构造的 List
+        long userId = userRoleList.get(0).getUserId();
+        QueryWrapper<UserRole> qw = new QueryWrapper<>();
+        qw.eq("USER_ID", userId);
+        userRoleService.remove(qw);
+
+        userRoleService.saveBatch(userRoleList);
     }
 
     // =================== 私有方法分割线 ===================

@@ -23,4 +23,22 @@ public interface IUserService extends IService<User> {
      * @Date: Jun 28, 2020 at 10:59:13 AM
      */
     IPage<UserVO> findUser(UserDTO dto);
+
+    /*
+     * Annotation:
+     * 删除用户
+     *
+     * @Author: Adam Ming
+     * @Date: Jun 30, 2020 at 4:46:49 PM
+     */
+    void deleteUser(UserDTO dto);
+
+    /*
+     * Annotation:
+     * 批量删除用户
+     *
+     * @Author: Adam Ming
+     * @Date: Jun 30, 2020 at 4:47:39 PM
+     */
+    void deleteUsers(UserDTO dto);
 }

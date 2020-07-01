@@ -85,8 +85,9 @@ public class RoleRest {
      * @Author: Adam Ming
      * @Date: Jun 30, 2020 at 9:55:35 AM
      */
+    @GetMapping("/role-tree")
     public DTreeVO roleTree(RoleDTO dto) {
-
+        roleBLH.roleTree(dto);
 
         return dto.getdTreeVO();
     }

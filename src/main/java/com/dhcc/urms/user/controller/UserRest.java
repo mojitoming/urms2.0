@@ -77,4 +77,18 @@ public class UserRest {
 
         return dto;
     }
+
+    /*
+     * Annotation:
+     * 用户 - 角色 赋权
+     *
+     * @Author: Adam Ming
+     * @Date: Jun 30, 2020 at 11:41:11 AM
+     */
+    @PostMapping("/user-grant")
+    public UserDTO userRoleGrant(@RequestBody JSONArray jsonArray) {
+        userBLH.userRoleGrant(jsonArray);
+
+        return userDTO;
+    }
 }
