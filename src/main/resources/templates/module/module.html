@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'../static/common/common_js_css' :: common_js_css(~{::head/title}, ~{::head/link}, ~{::head/script})">
-    <title>Medical Insurance Fee System</title>
+    <title>User Role Management System</title>
     <link rel="stylesheet" th:href="@{/css/module/module.css}">
     <script th:src="@{/js/module/module.js}"></script>
 </head>
@@ -13,7 +13,51 @@
                 <ul id="module-tree" class="dtree" data-id="-1"></ul>
             </div>
             <div id="content-cover" class="layui-col-md8">
-                content
+                <div class="layui-collapse" lay-accordion>
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">模块信息</h2>
+                        <div class="layui-colla-content layui-show">
+                            <table class="layui-table">
+                                <colgroup>
+                                    <col width="100">
+                                    <col width="200">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>属性名</th>
+                                    <th>属性值</th>
+                                </tr>
+                                </thead>
+                                <tbody id="module-info">
+                                <tr>
+                                    <td>模块名称</td>
+                                    <td>模块树</td>
+                                </tr>
+                                <tr>
+                                    <td>模块类型</td>
+                                    <td>根</td>
+                                </tr>
+                                <tr>
+                                    <td>访问链接</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>模块图标</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>状态</td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">子模块排序</h2>
+                        <div class="layui-colla-content">内容区域</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

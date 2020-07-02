@@ -2,7 +2,6 @@ package com.dhcc.urms.module.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
  */
 @TableName("T_MODULE")
 @KeySequence("SEQ_URMS")
-public class Module implements Serializable {
+public class Module extends ModuleVO {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,7 +51,7 @@ public class Module implements Serializable {
     /**
      * 顺序
      */
-    @TableField("ODN")
+    @TableField(value = "ODN", fill = FieldFill.INSERT)
     private Long odn;
 
     /**

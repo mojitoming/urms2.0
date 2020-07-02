@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="'../static/common/common_js_css' :: common_js_css(~{::head/title}, ~{::head/link}, ~{::head/script})">
+    <title>Dict Management</title>
+    <link rel="stylesheet" th:href="@{/css/module/moduleModify.css}">
+    <script th:src="@{/js/module/moduleModify.js}"></script>
+</head>
+<body>
+    <div class="layui-fluid">
+        <form action="" class="layui-form" lay-filter="modify-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="iconfont icon-bitianxiang-"></span>模块类型</label>
+                <div class="layui-input-block">
+                    <select name="moduleType" lay-verify="required">
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="iconfont icon-bitianxiang-"></span>模块名称</label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="moduleId">
+                    <input type="hidden" name="parentId">
+                    <input type="text" name="moduleName" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="iconfont icon-bitianxiang-"></span>访问链接</label>
+                <div class="layui-input-block">
+                    <input type="text" name="moduleAction" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">模块图标</label>
+                <div class="layui-input-block">
+                    <input type="text" name="moduleIcon" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否启用</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" checked="" name="status" lay-skin="switch" lay-filter="switchStatus" lay-text="ON|OFF">
+                </div>
+            </div>
+
+            <div class="layui-form-item hide-button">
+                <div class="layui-input-block">
+                    <button id="submit-modify" class="layui-btn" lay-submit lay-filter="submit-modify">立即提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -3,6 +3,7 @@ package com.dhcc.urms.module.blh;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.dhcc.urms.common.entity.DTreeNodeVO;
 import com.dhcc.urms.common.entity.DTreeVO;
+import com.dhcc.urms.common.entity.DictEnum;
 import com.dhcc.urms.module.dto.ModuleDTO;
 import com.dhcc.urms.module.entity.Module;
 import com.dhcc.urms.module.service.IModuleService;
@@ -15,6 +16,7 @@ import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -81,5 +83,83 @@ public class ModuleBLH implements Serializable {
         }
 
         dto.setDTreeVO(dTreeVO);
+    }
+
+    /*
+     * Annotation:
+     * 获取 module
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 2, 2020 at 4:04:36 PM
+     */
+    public void findModule(ModuleDTO dto) {
+        QueryWrapper<Module> qw = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(dto.getModuleId())) {
+            qw.eq("MODULE_ID", dto.getModuleId());
+        }
+        qw.orderByAsc("ODN");
+        List<Module> moduleList =
+            moduleService.list(qw).stream().peek(e -> {
+                e.setStatusName(Objects.requireNonNull(DictEnum.getDictEnumByCode(e.getStatus())).getName());
+                e.setModuleTypeName(Objects.requireNonNull(DictEnum.getDictEnumByCode(e.getModuleType())).getName());
+            }).collect(Collectors.toList());
+
+        dto.setModuleList(moduleList);
+    }
+
+    /*
+     * Annotation:
+     * 新建模块
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 2, 2020 at 5:20:56 PM
+     */
+    public void addModule(ModuleDTO dto) {
+        Module module = dto.getModule();
+        convertStatus(module);
+
+        moduleService.save(module);
+    }
+
+    /*
+     * Annotation:
+     * 修改模块
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 2, 2020 at 5:21:27 PM
+     */
+    public void updateModule(ModuleDTO dto) {
+        Module module = dto.getModule();
+        convertStatus(module);
+
+        moduleService.updateById(module);
+    }
+
+    /*
+     * Annotation:
+     * 删除模块
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 2, 2020 at 5:21:45 PM
+     */
+    public void deleteModule(ModuleDTO dto) {
+        moduleService.deleteModule(dto);
+    }
+
+    // =================== 私有方法分割线 ===================
+
+    /*
+     * Annotation:
+     * Role Status 状态转变
+     *
+     * @Author: Adam Ming
+     * @Date: Jun 22, 2020 at 5:33:29 PM
+     */
+    private void convertStatus(Module module) {
+        if ("on".equals(module.getStatus())) {
+            module.setStatus(DictEnum.STATUS_ACTIVE.getCode());
+        } else {
+            module.setStatus(DictEnum.STATUS_INACTIVE.getCode());
+        }
     }
 }

@@ -14,9 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/module")
 public class ModuleController {
+    private final String PREFIX = "module/";
 
     @RequestMapping(value = {"", "/"})
     public String module() {
-        return "module/module";
+        return PREFIX + "module";
+    }
+
+    @RequestMapping("/modify")
+    public String modify() {
+        return PREFIX + "moduleModify";
     }
 }

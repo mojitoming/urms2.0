@@ -159,7 +159,7 @@ public class RoleBLH implements Serializable {
      */
     public void roleTree(RoleDTO dto) {
         QueryWrapper<Role> qwR = new QueryWrapper<>();
-        qwR.eq("STATUS", DictEnum.STATUS_ACTIVE.getValue());
+        qwR.eq("STATUS", DictEnum.STATUS_ACTIVE.getCode());
         qwR.orderByAsc("PRIORITY");
         List<Role> roleList = roleService.list(qwR);
 
@@ -207,9 +207,9 @@ public class RoleBLH implements Serializable {
      */
     private void convertStatus(Role role) {
         if ("on".equals(role.getStatus())) {
-            role.setStatus(DictEnum.STATUS_ACTIVE.getValue());
+            role.setStatus(DictEnum.STATUS_ACTIVE.getCode());
         } else {
-            role.setStatus(DictEnum.STATUS_INACTIVE.getValue());
+            role.setStatus(DictEnum.STATUS_INACTIVE.getCode());
         }
     }
 }

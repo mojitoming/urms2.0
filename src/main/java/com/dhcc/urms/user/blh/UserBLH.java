@@ -193,9 +193,9 @@ public class UserBLH implements Serializable {
      */
     private void convertStatus(User user) {
         if ("on".equals(user.getStatus())) {
-            user.setStatus(DictEnum.STATUS_ACTIVE.getValue());
+            user.setStatus(DictEnum.STATUS_ACTIVE.getCode());
         } else {
-            user.setStatus(DictEnum.STATUS_INACTIVE.getValue());
+            user.setStatus(DictEnum.STATUS_INACTIVE.getCode());
         }
     }
 

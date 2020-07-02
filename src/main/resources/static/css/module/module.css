@@ -18,10 +18,19 @@ html, body, .layui-fluid, .layui-row {
     overflow: auto;
 }
 
+#module-tree {
+    width: 100% !important;
+}
+
 #content-cover {
     border: 1px solid #e6e6e6;
     margin-left: -1px;
     height: 100%;
+}
+
+#module-iframe {
+    height: 100%;
+    width: 100%;
 }
 
 #search-input {
@@ -40,3 +49,10 @@ input#search-input::-webkit-input-placeholder {
     font-size: 12px;
 }
 
+.layui-layer-loading {
+    left: 15% !important;
+}
+
+.layui-collapse {
+    border: 0;
+}
