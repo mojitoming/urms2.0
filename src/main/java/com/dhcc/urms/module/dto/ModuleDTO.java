@@ -3,6 +3,7 @@ package com.dhcc.urms.module.dto;
 import com.dhcc.urms.common.entity.BaseAbstractDTO;
 import com.dhcc.urms.common.entity.DTreeVO;
 import com.dhcc.urms.module.entity.Module;
+import com.dhcc.urms.module.entity.ModuleVO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,7 +24,9 @@ public class ModuleDTO extends BaseAbstractDTO {
     private long roleId; // 角色ID
     private String roleName; // 角色名称
     private long moduleId; // 模块ID
+    private List<String> moduleIdList;
     private List<Module> moduleList; // 模块对象 List
+    private List<ModuleVO> moduleVOList; // 模块对象 List Value Object
     private Module module; // 模块对象
 
     public DTreeVO getDTreeVO() {
@@ -58,12 +61,28 @@ public class ModuleDTO extends BaseAbstractDTO {
         this.moduleId = moduleId;
     }
 
+    public List<String> getModuleIdList() {
+        return moduleIdList;
+    }
+
+    public void setModuleIdList(List<String> moduleIdList) {
+        this.moduleIdList = moduleIdList;
+    }
+
     public List<Module> getModuleList() {
         return moduleList;
     }
 
     public void setModuleList(List<Module> moduleList) {
         this.moduleList = moduleList;
+    }
+
+    public List<ModuleVO> getModuleVOList() {
+        return moduleVOList;
+    }
+
+    public void setModuleVOList(List<ModuleVO> moduleVOList) {
+        this.moduleVOList = moduleVOList;
     }
 
     public Module getModule() {

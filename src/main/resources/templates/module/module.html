@@ -3,6 +3,8 @@
 <head th:replace="'../static/common/common_js_css' :: common_js_css(~{::head/title}, ~{::head/link}, ~{::head/script})">
     <title>User Role Management System</title>
     <link rel="stylesheet" th:href="@{/css/module/module.css}">
+    <script th:src="@{/plugins/jquery/Sortable.js}"></script>
+    <!--<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css}"/>-->
     <script th:src="@{/js/module/module.js}"></script>
 </head>
 <body>
@@ -55,7 +57,11 @@
                     </div>
                     <div class="layui-colla-item">
                         <h2 class="layui-colla-title">子模块排序</h2>
-                        <div class="layui-colla-content">内容区域</div>
+                        <div class="layui-colla-content">
+                            <ul id="drag-odn" class="my-list-group">
+                            </ul>
+                            <button id='save-odn' type="button" class="layui-btn layui-btn-normal layui-btn-xs layui-btn-disabled" disabled="disabled">保存当前顺序</button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -13,6 +13,13 @@
       "unicode_decimal": 983393
     },
     {
+      "icon_id": "521494",
+      "name": "可拖拽",
+      "font_class": "ketuozhuai",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
       "icon_id": "591862",
       "name": "删除",
       "font_class": "shanchu",
@@ -62,6 +69,13 @@
       "unicode_decimal": 59032
     },
     {
+      "icon_id": "4111827",
+      "name": "拖拽",
+      "font_class": "drag_2",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
       "icon_id": "4511968",
       "name": "增加",
       "font_class": "zengjia",
@@ -104,11 +118,25 @@
       "unicode_decimal": 60129
     },
     {
+      "icon_id": "5953258",
+      "name": "拖拽",
+      "font_class": "tuozhuai",
+      "unicode": "e680",
+      "unicode_decimal": 59008
+    },
+    {
       "icon_id": "6756192",
       "name": "右箭头",
       "font_class": "youjiantou",
       "unicode": "e602",
       "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "7543557",
+      "name": "拖拽",
+      "font_class": "tuozhuai1",
+      "unicode": "e611",
+      "unicode_decimal": 58897
     },
     {
       "icon_id": "8229473",

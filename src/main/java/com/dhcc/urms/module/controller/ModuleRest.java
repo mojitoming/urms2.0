@@ -50,6 +50,34 @@ public class ModuleRest {
 
     /*
      * Annotation:
+     * 根据 module_id 获取直接子节点
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 3, 2020 at 3:05:21 PM
+     */
+    @GetMapping("/sub-module")
+    public ModuleDTO findSubModule(ModuleDTO dto) {
+        moduleBLH.findSubModule(dto);
+
+        return dto;
+    }
+
+    /*
+     * Annotation:
+     * 模块顺序保存
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 3, 2020 at 4:11:33 PM
+     */
+    @PutMapping("/module-odn")
+    public ModuleDTO updateModuleOdn(ModuleDTO dto) {
+        moduleBLH.updateModuleOdn(dto);
+
+        return  dto;
+    }
+
+    /*
+     * Annotation:
      * 新建模块
      *
      * @Author: Adam Ming

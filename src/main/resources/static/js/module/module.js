@@ -6,6 +6,12 @@ layui.extend({
     let $ = layui.$,
         dtree = layui.dtree;
 
+    // 计算弹出层水平剧中 x 坐标
+    let windowW = $(window).width();
+    let sidebarWidth = $MENU_WH.width;
+    let openWidth = 500, openHeight = 500;
+    let offsetX = math.evaluate(`${(windowW - openWidth) / 2 - (sidebarWidth / 2)}`);
+
     let moduleTree = dtree.render({
         elem: '#module-tree',
         ficon: '-1',
@@ -48,7 +54,6 @@ layui.extend({
                 icon: 'dtree-icon-roundadd',
                 title: '新增模块',
                 handler: function (node, $div) {
-                    console.log(node);
                     openPop(node, 'add-item');
                 }
             },
@@ -69,10 +74,6 @@ layui.extend({
                 }
             }
         ],
-        /*useIframe: true,
-         iframeElem: '#module-iframe',
-         iframeUrl: `${$WEB_ROOT_PATH}/module/content`,
-         iframeLoad: 'all'*/
     });
 
     // 监听 search-input enter
@@ -98,7 +99,26 @@ layui.extend({
     dtree.on('node("module-tree")', function (obj) {
         // 模块ID
         let moduleId = obj.param.nodeId;
-        if (moduleId === '0') return false;
+
+        findModuleInfo(moduleId);
+        subModulesOdn(moduleId);
+    });
+
+    // 节点点击 模块信息
+    function findModuleInfo(moduleId) {
+        let moduleVOArr = [];
+        let $moduleInfo = $('#module-info');
+        if (moduleId === '0') {
+            moduleVOArr = ['模块树', '根', '', '', ''];
+
+            $moduleInfo.children('tr').each((i, e) => {
+                let temp = moduleVOArr[i] ? moduleVOArr[i] : '';
+                $(e).children('td').last().text(temp);
+            })
+
+            return false;
+        }
+
         $.ajax({
             type: 'get',
             url: $WEB_ROOT_PATH + '/module-api/module',
@@ -108,32 +128,123 @@ layui.extend({
                 'moduleId': moduleId,
             },
             success: function (response, status, xhr) {
-                let module = response.moduleList[0];
+                let moduleVO = response.moduleVOList[0];
 
-                let moduleArr = [];
-                moduleArr.push(module.moduleName);
-                moduleArr.push(module.moduleTypeName);
-                moduleArr.push(module.moduleAction);
-                moduleArr.push(module.moduleIcon);
-                moduleArr.push(module.statusName);
+                moduleVOArr.push(moduleVO.moduleName);
+                moduleVOArr.push(moduleVO.moduleTypeName);
+                moduleVOArr.push(moduleVO.moduleAction);
+                moduleVOArr.push(moduleVO.moduleIcon);
+                moduleVOArr.push(moduleVO.statusName);
                 // 填值
-                let $moduleInfo = $('#module-info');
                 $moduleInfo.children('tr').each((i, e) => {
-                    let temp = moduleArr[i] ? moduleArr[i] : '';
+                    let temp = moduleVOArr[i] ? moduleVOArr[i] : '';
                     $(e).children('td').last().text(temp);
                 })
             },
             error: function (response, status, xhr) {
             }
         });
-    });
+    }
 
-    // 弹出层
-    // 计算弹出层水平剧中 x 坐标
-    let windowW = $(window).width();
-    let sidebarWidth = $MENU_WH.width;
-    let openWidth = 500, openHeight = 500;
-    let offsetX = math.evaluate(`${(windowW - openWidth) / 2 - (sidebarWidth / 2)}`);
+    // 节点点击 子模块排序
+    function subModulesOdn(moduleId) {
+        saveBtnOdnDisable();
+        if (moduleId === '0') {
+            $('#drag-odn').empty();
+
+            return false;
+        }
+
+        let url = $WEB_ROOT_PATH + '/module-api/sub-module';
+        $.ajax({
+            type: 'get',
+            url: url,
+            async: true,
+            dataType: 'json',
+            data: {
+                'moduleId': moduleId,
+            },
+            success: function (response, status, xhr) {
+                let moduleList = response.moduleList;
+                sortableHandle(moduleList);
+            },
+            error: function (response, status, xhr) {
+            }
+        });
+    }
+
+    // sortable 使用
+    let $saveOdn = $('#save-odn');
+
+    function sortableHandle(data) {
+        let dragOdnObj = document.getElementById('drag-odn');
+
+        if (data.length === 0) {
+            $(dragOdnObj).empty();
+
+            return false;
+        }
+        let temp = '';
+        data.forEach(e => {
+            temp += `<li class="my-list-group-item" data-id="${e.moduleId}"><span class="iconfont icon-ketuozhuai my-handle"></span>${e.moduleName}</li>`;
+        });
+        $(dragOdnObj).html(temp);
+
+        // 拖拽排序
+        let sortable = new Sortable(dragOdnObj, {
+            group: 'module-odn',
+            handle: '.my-handle',
+            ghostClass: 'my-ghost-blue',
+            animation: 150,
+            onUpdate: function (event) {
+                saveBtnOdnEnable();
+            }
+        });
+
+        // 保存
+        $saveOdn.click(function (e) {
+            let moduleIdArr = sortable.toArray();
+
+            let url = $WEB_ROOT_PATH + '/module-api/module-odn';
+            $.ajax({
+                type: 'put',
+                url: url,
+                async: true,
+                dataType: 'json',
+                traditional: true,
+                data: {
+                    'moduleIdList': moduleIdArr,
+                },
+                success: function (response, status, xhr) {
+                    let msgWidth = 180;
+                    let msgOffsetX = math.evaluate(`${(windowW - msgWidth) / 2 - (sidebarWidth / 2)}`);
+                    layer.msg('模块顺序保存成功！', {
+                        time: 2000,
+                        area: `${msgWidth}px`,
+                        offset: ['t', `${msgOffsetX}px`]
+                    }, function () {
+                        moduleTree.reload();
+                    });
+                },
+                error: function (response, status, xhr) {
+                    layer.msg('出现系统错误，请联系管理员处理！');
+                }
+            });
+
+            e.stopPropagation();
+        });
+    }
+
+    // 顺序保存按钮 启用/关闭
+    function saveBtnOdnEnable() {
+        $saveOdn.removeClass('layui-btn-disabled');
+        $saveOdn.removeAttr('disabled');
+    }
+
+    function saveBtnOdnDisable() {
+        $saveOdn.addClass('layui-btn-disabled');
+        $saveOdn.attr('disabled', 'disabled');
+    }
 
     // 弹出层传参
     class DataCarrier {
@@ -162,6 +273,7 @@ layui.extend({
         }
     };
 
+    // 弹出层
     function openPop(node, event) {
         let title, skin, btn;
         switch (event) {

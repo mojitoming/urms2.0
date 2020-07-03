@@ -2,6 +2,7 @@ package com.dhcc.urms.module.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @TableName("T_MODULE")
 @KeySequence("SEQ_URMS")
-public class Module extends ModuleVO {
+public class Module implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -6,14 +6,17 @@ import com.dhcc.urms.common.entity.DTreeVO;
 import com.dhcc.urms.common.entity.DictEnum;
 import com.dhcc.urms.module.dto.ModuleDTO;
 import com.dhcc.urms.module.entity.Module;
+import com.dhcc.urms.module.entity.ModuleVO;
 import com.dhcc.urms.module.service.IModuleService;
 import com.dhcc.urms.roleprivilege.entity.RolePrivilege;
 import com.dhcc.urms.roleprivilege.service.IRolePrivilegeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -98,13 +101,60 @@ public class ModuleBLH implements Serializable {
             qw.eq("MODULE_ID", dto.getModuleId());
         }
         qw.orderByAsc("ODN");
-        List<Module> moduleList =
-            moduleService.list(qw).stream().peek(e -> {
-                e.setStatusName(Objects.requireNonNull(DictEnum.getDictEnumByCode(e.getStatus())).getName());
-                e.setModuleTypeName(Objects.requireNonNull(DictEnum.getDictEnumByCode(e.getModuleType())).getName());
-            }).collect(Collectors.toList());
+        List<Module> moduleList = moduleService.list(qw); // raw data
+        List<ModuleVO> moduleVOList; // handle data
+
+        moduleVOList = moduleList.stream().map(e -> {
+            // copy module to moduleVO
+            ModuleVO vo = new ModuleVO();
+            BeanUtils.copyProperties(e, vo);
+            vo.setStatusName(Objects.requireNonNull(DictEnum.getDictEnumByCode(e.getStatus())).getName());
+            vo.setModuleTypeName(Objects.requireNonNull(DictEnum.getDictEnumByCode(e.getModuleType())).getName());
+
+            return vo;
+        }).collect(Collectors.toList());
+
+        dto.setModuleVOList(moduleVOList);
+    }
+
+    /*
+     * Annotation:
+     * 根据 module_id 获取直接子节点
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 3, 2020 at 3:10:31 PM
+     */
+    public void findSubModule(ModuleDTO dto) {
+        QueryWrapper<Module> qw = new QueryWrapper<>();
+        qw.eq("PARENT_ID", dto.getModuleId());
+        qw.orderByAsc("ODN");
+        List<Module> moduleList = moduleService.list(qw);
 
         dto.setModuleList(moduleList);
+    }
+
+    /*
+     * Annotation:
+     * 模块顺序保存
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 3, 2020 at 4:11:33 PM
+     */
+    public void updateModuleOdn(ModuleDTO dto) {
+        List<String> moduleIdList = dto.getModuleIdList();
+
+        List<Module> moduleList = new ArrayList<>();
+        Module module;
+        for (int i = 0; i < moduleIdList.size(); i++) {
+            module = new Module();
+
+            module.setModuleId(Long.parseLong(moduleIdList.get(i)));
+            module.setOdn((long) i);
+
+            moduleList.add(module);
+        }
+
+        moduleService.updateBatchById(moduleList);
     }
 
     /*
