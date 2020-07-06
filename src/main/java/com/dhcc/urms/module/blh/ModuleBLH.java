@@ -58,6 +58,7 @@ public class ModuleBLH implements Serializable {
         // 根据 roleId 获取 role-privilege 对应关系，转换为 map
         QueryWrapper<RolePrivilege> qwRP = new QueryWrapper<>();
         qwRP.eq("ROLE_ID", dto.getRoleId());
+        qwRP.eq("PRIVI_TYPE_CODE", DictEnum.PRIVI_TYPE_MODULE.getCode());
         List<RolePrivilege> rolePrivilegeList = rolePrivilegeService.list(qwRP);
         Map<String, String> privilegeMap = rolePrivilegeList.stream().collect(Collectors.toMap(RolePrivilege::getPriviId, e -> "1"));
 
@@ -79,7 +80,7 @@ public class ModuleBLH implements Serializable {
             dTreeNodeVO.setTitle(module.getModuleName());
             dTreeNodeVO.setParentId(module.getParentId().toString());
 
-            isCheck = privilegeMap.get(module.getModuleId().toString()) == null ? "0" : "1";
+            isCheck = StringUtils.isEmpty(privilegeMap.get(module.getModuleId().toString())) ? "0" : "1";
             dTreeNodeVO.setCheckArr(isCheck);
 
             dTreeVO.getData().add(dTreeNodeVO);

@@ -136,7 +136,7 @@ public class RoleBLH implements Serializable {
             }
 
             rolePrivilege.setPriviId(priviIdTemp);
-            rolePrivilege.setPriviTypeCode("MODULE");
+            rolePrivilege.setPriviTypeCode(DictEnum.PRIVI_TYPE_MODULE.getCode());
 
             rolePrivilegeList.add(rolePrivilege);
         }
@@ -145,6 +145,54 @@ public class RoleBLH implements Serializable {
         Long roleId = rolePrivilegeList.get(0).getRoleId();
         QueryWrapper<RolePrivilege> qw = new QueryWrapper<>();
         qw.eq("ROLE_ID", roleId);
+        qw.eq("PRIVI_TYPE_CODE", DictEnum.PRIVI_TYPE_MODULE.getCode());
+        rolePrivilegeService.remove(qw);
+
+        rolePrivilegeService.saveBatch(rolePrivilegeList);
+    }
+
+    /*
+     * Annotation:
+     * 角色 - 数据 授权
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 6, 2020 at 5:22:19 PM
+     */
+    public void roleDataGrant(JSONArray jsonArray) {
+        List<GrantJsonVO> grantJsonVOList = jsonArray.toJavaList(GrantJsonVO.class);
+        if (grantJsonVOList.size() == 0) {
+            return;
+        }
+
+        List<RolePrivilege> rolePrivilegeList = new ArrayList<>();
+        RolePrivilege rolePrivilege;
+
+        String nodeId, parentId;
+        for (GrantJsonVO grantJsonVO : grantJsonVOList) {
+            rolePrivilege = new RolePrivilege();
+            rolePrivilege.setRoleId(Long.parseLong(grantJsonVO.getRoleId()));
+
+            nodeId = grantJsonVO.getNodeId();
+            if ("0".equals(nodeId)) { // 过滤掉树根
+                continue;
+            }
+
+            parentId = grantJsonVO.getParentId();
+            if ("0".equals(parentId)) { // 过滤掉机构类型
+                continue;
+            }
+
+            rolePrivilege.setPriviId(nodeId);
+            rolePrivilege.setPriviTypeCode(DictEnum.PRIVI_TYPE_DATA.getCode());
+
+            rolePrivilegeList.add(rolePrivilege);
+        }
+
+        // 先删后插 ---> 根据 roleId 删除所有 关联的 module，然后再插入上面构造的 List
+        Long roleId = rolePrivilegeList.get(0).getRoleId();
+        QueryWrapper<RolePrivilege> qw = new QueryWrapper<>();
+        qw.eq("ROLE_ID", roleId);
+        qw.eq("PRIVI_TYPE_CODE", DictEnum.PRIVI_TYPE_DATA.getCode());
         rolePrivilegeService.remove(qw);
 
         rolePrivilegeService.saveBatch(rolePrivilegeList);
@@ -187,7 +235,7 @@ public class RoleBLH implements Serializable {
             dTreeNodeVO.setTitle(role.getRoleName());
             dTreeNodeVO.setParentId("0");
 
-            isCheck = roleMap.get(role.getRoleId()) == null ? "0" : "1";
+            isCheck = StringUtils.isEmpty(roleMap.get(role.getRoleId())) ? "0" : "1";
             dTreeNodeVO.setCheckArr(isCheck);
 
             dTreeVO.getData().add(dTreeNodeVO);

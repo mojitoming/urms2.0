@@ -1,5 +1,5 @@
 layui.extend({
-    dataTable: `{/}${$WEB_ROOT_PATH}/plugins/extend-module/datatable/dataTable`,
+    dataTable: `{/}${$WEB_ROOT_PATH}/plugins/extend-module/datatable/dataTable2Role`,
 }).use(['dataTable'], function () {
     let dataTable = layui.dataTable;
 
@@ -65,9 +65,12 @@ layui.extend({
             height: popupHeight
         },
         rightTree: {
-            url: $WEB_ROOT_PATH + '/module-api/module-tree',
-            saveUrl: $WEB_ROOT_PATH + '/role-api/module-grant',
-            checkbarType: 'all',
+            moduleUrl: $WEB_ROOT_PATH + '/module-api/module-tree',
+            moduleSaveUrl: $WEB_ROOT_PATH + '/role-api/module-grant',
+            moduleCheckbarType: 'all',
+            dataUrl: $WEB_ROOT_PATH + '/org-api/org-tree',
+            dataSaveUrl: $WEB_ROOT_PATH + '/role-api/data-grant',
+            dataCheckbarType: 'no-all',
         }
     };
     dataTable.init(param);

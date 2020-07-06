@@ -8,9 +8,12 @@ public enum DictEnum {
     STATUS_ACTIVE("ACTIVE", "启用"), // 提交
     STATUS_INACTIVE("INACTIVE", "停用"), // 停用
 
-    MODULETYPE_SYSTEM("SYSTEM","系统"),
-    MODULETYPE_PAGE("PAGE","页面"),
-    MODULETYPE_FUNCTION("FUNCTION","功能"),
+    MODULE_TYPE_SYSTEM("SYSTEM", "系统"),
+    MODULE_TYPE_PAGE("PAGE", "页面"),
+    MODULE_TYPE_FUNCTION("FUNCTION", "功能"),
+
+    PRIVI_TYPE_MODULE("MODULE", "模块"),
+    PRIVI_TYPE_DATA("DATA", "数据");
     ;
 
     private final String code;

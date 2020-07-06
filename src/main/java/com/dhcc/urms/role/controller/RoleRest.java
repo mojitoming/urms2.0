@@ -80,6 +80,20 @@ public class RoleRest {
 
     /*
      * Annotation:
+     * 角色 - 数据 赋权
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 6, 2020 at 5:21:01 PM
+     */
+    @PostMapping("/data-grant")
+    public RoleDTO roleDataGrant(@RequestBody JSONArray jsonArray){
+        roleBLH.roleDataGrant(jsonArray);
+
+        return roleDTO;
+    }
+
+    /*
+     * Annotation:
      * 角色树
      *
      * @Author: Adam Ming
