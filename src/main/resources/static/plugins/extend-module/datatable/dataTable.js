@@ -81,6 +81,7 @@ layui.extend({
                                       ${dtDom}
                                   </div>  
                                   <div id="right-tree-cover" class="layui-col-md3">  
+                                      <input id="search-input" type="text" placeholder="节点名称..." autocomplete="off" class="layui-input">
                                       <ul id="right-tree" class="dtree" data-id="-1"></ul>  
                                       <div class="layui-btn-group">  
                                           <button id="save" type="button" class="layui-btn layui-btn-sm layui-btn-normal layui-btn-disabled" disabled="disabled">保存</button>  
@@ -187,7 +188,14 @@ layui.extend({
                     'status': 'ACTIVE'
                 },
                 menubarTips: {
-                    group: ["moveDown", "moveUp", "refresh", "searchNode"]
+                    group: [{
+                        menubarId: 'search-module-btn',
+                        icon: 'dtree-icon-search2',
+                        title: '查询',
+                        handler: function (node, $div) {
+                            _this.searchModuleNode(rTree);
+                        }
+                    }, "moveDown", "moveUp", "refresh"]
                 },
                 done: function (res, $ul, first) {
                     if (first) {
@@ -200,6 +208,13 @@ layui.extend({
                     }
                 }
             });
+            // 监听 search-input enter
+            $('input#search-input').keyup(function (e) {
+                if (e.key === 'Enter') {
+                    _this.searchModuleNode(rTree);
+                }
+            });
+
             let $rTreeSaveBtn = $('#right-tree-cover #save');
             let $rTreeRestoreBtn = $('#right-tree-cover #restore');
 
@@ -454,6 +469,17 @@ layui.extend({
             $rTreeSaveBtn.attr('disabled', 'disabled');
             $rTreeRestoreBtn.addClass('layui-btn-disabled');
             $rTreeRestoreBtn.attr('disabled', 'disabled');
+        },
+        searchModuleNode(tTree) {
+            let value = $("#search-input").val();
+            if (value) {
+                let flag = tTree.searchNode(value); // 内置方法查找节点
+                if (!flag) {
+                    layer.msg("该名称节点不存在！", {icon: 5});
+                }
+            } else {
+                tTree.menubarMethod().refreshTree(); // 内置方法刷新树
+            }
         }
     };
 

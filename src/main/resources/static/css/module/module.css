@@ -35,9 +35,8 @@ html, body, .layui-fluid, .layui-row {
 
 #search-input {
     width: 240px;
-    height: 20px;
+    height: 25px;
     float: left;
-    /*margin-left: 20px;*/
 }
 
 input#search-input {
@@ -47,6 +46,11 @@ input#search-input {
 input#search-input::-webkit-input-placeholder {
     /* placeholder字体大小 */
     font-size: 12px;
+}
+
+.dtree-menubar .layui-btn-group .layui-btn-sm {
+    height: 25px !important;
+    line-height: 25px !important;
 }
 
 .layui-layer-loading {

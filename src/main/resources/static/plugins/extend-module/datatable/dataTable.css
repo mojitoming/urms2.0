@@ -43,11 +43,26 @@ span.layui-icon-return {
     left: 86% !important;
 }
 
-.dtree-menubar {
-    padding-left: 20px !important;
-    padding-top: 5px;
-}
-
 #dt-cover .layui-table-view {
     margin: 0;
+}
+
+#search-input {
+    width: 200px;
+    height: 25px;
+    float: left;
+}
+
+input#search-input {
+    font-size: 12px;
+}
+
+input#search-input::-webkit-input-placeholder {
+    /* placeholder字体大小 */
+    font-size: 12px;
+}
+
+.dtree-menubar .layui-btn-group .layui-btn-sm {
+    height: 25px !important;
+    line-height: 25px !important;
 }
