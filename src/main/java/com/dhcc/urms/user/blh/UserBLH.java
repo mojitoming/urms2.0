@@ -68,8 +68,7 @@ public class UserBLH implements Serializable {
      */
     public void addUser(UserDTO dto) {
         User user = dto.getUser();
-        convertStatus(user);
-
+        user.setStatus(DictEnum.convertStatus(user.getStatus()));
         // 初始化密码
         initPassword(user);
 
@@ -89,7 +88,7 @@ public class UserBLH implements Serializable {
         if ("on".equals(resetPassword)) { // 重置密码
             initPassword(userVO);
         }
-        convertStatus(userVO);
+        userVO.setStatus(DictEnum.convertStatus(userVO.getStatus()));
 
         userService.updateById(userVO);
     }
@@ -183,21 +182,6 @@ public class UserBLH implements Serializable {
     }
 
     // =================== 私有方法分割线 ===================
-
-    /*
-     * Annotation:
-     * User Status 状态转变
-     *
-     * @Author: Adam Ming
-     * @Date: Jun 22, 2020 at 5:33:29 PM
-     */
-    private void convertStatus(User user) {
-        if ("on".equals(user.getStatus())) {
-            user.setStatus(DictEnum.STATUS_ACTIVE.getCode());
-        } else {
-            user.setStatus(DictEnum.STATUS_INACTIVE.getCode());
-        }
-    }
 
     /*
      * Annotation:

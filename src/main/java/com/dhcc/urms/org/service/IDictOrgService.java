@@ -26,4 +26,31 @@ public interface IDictOrgService extends IService<DictOrg> {
      * @Date: Jul 6, 2020 at 3:32:31 PM
      */
     List<OrgVO> findOrgInfo(OrgDTO dto);
+
+    /*
+     * Annotation:
+     * 新增机构
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 7, 2020 at 11:36:44 AM
+     */
+    void addOrg(OrgDTO dto);
+
+    /*
+     * Annotation:
+     * 修改机构
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 7, 2020 at 11:37:11 AM
+     */
+    void updateOrg(OrgDTO dto);
+
+    /*
+     * Annotation:
+     * 删除机构
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 7, 2020 at 11:37:31 AM
+     */
+    void deleteOrg(OrgDTO dto);
 }

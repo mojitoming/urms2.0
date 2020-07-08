@@ -9,13 +9,18 @@ layui.extend({
     // 计算弹出层水平剧中 x 坐标
     let windowW = $(window).width();
     let sidebarWidth = $MENU_WH.width;
-    let openWidth = 500, openHeight = 500;
+    let openWidth = 500, openHeight = 400;
     let offsetX = math.evaluate(`${(windowW - openWidth) / 2 - (sidebarWidth / 2)}`);
 
-    let moduleTree = dtree.render({
-        elem: '#module-tree',
+    // 计算排序部分高度
+    let windowH = $(window).height();
+    let odnHeight = windowH - 42 * 2 - 21 - 22 - 24;
+    $('#drag-odn').height(odnHeight);
+
+    let orgTree = dtree.render({
+        elem: '#org-tree',
         ficon: '-1',
-        url: $WEB_ROOT_PATH + '/module-api/module-tree',
+        url: $WEB_ROOT_PATH + '/org-api/org-all-tree',
         method: 'GET',
         dataFormat: 'list',
         line: true,
@@ -24,14 +29,14 @@ layui.extend({
             title: "模块",
             area: ["50%", "400px"]
         },
-        scroll: '#module-tree-cover',
+        scroll: '#org-tree-cover',
         menubarTips: {
             group: [{
-                menubarId: 'search-module-btn',
+                menubarId: 'search-org-btn',
                 icon: 'dtree-icon-search2',
                 title: '查询',
                 handler: function (node, $div) {
-                    searchModuleNode();
+                    searchOrgNode();
                 }
             }, "moveDown", "moveUp", "refresh"]
         },
@@ -41,8 +46,11 @@ layui.extend({
         toolbarFun: {
             loadToolbarBefore: function (buttons, param, $div) {
                 if (param.nodeId === '0') {
-                    buttons.moduleEdit = '';
-                    buttons.moduleDel = '';
+                    buttons.orgEdit = '';
+                    buttons.orgDel = '';
+                }
+                if (param.leaf && param.parentId !== '0') {
+                    buttons.orgAdd = '';
                 }
 
                 return buttons;
@@ -50,25 +58,25 @@ layui.extend({
         },
         toolbarExt: [
             {
-                toolbarId: 'moduleAdd',
+                toolbarId: 'orgAdd',
                 icon: 'dtree-icon-roundadd',
-                title: '新增模块',
+                title: '新增节点',
                 handler: function (node, $div) {
                     openPop(node, 'add-item');
                 }
             },
             {
-                toolbarId: 'moduleEdit',
+                toolbarId: 'orgEdit',
                 icon: 'dtree-icon-bianji',
-                title: '编辑模块',
+                title: '编辑节点',
                 handler: function (node, $div) {
                     openPop(node, 'edit-item');
                 }
             },
             {
-                toolbarId: 'moduleDel',
+                toolbarId: 'orgDel',
                 icon: 'dtree-icon-roundclose',
-                title: '删除模块',
+                title: '删除节点',
                 handler: function (node, $div) {
                     openPop(node, 'del-item');
                 }
@@ -79,41 +87,69 @@ layui.extend({
     // 监听 search-input enter
     $('input#search-input').keyup(function (e) {
         if (e.key === 'Enter') {
-            searchModuleNode();
+            searchOrgNode();
         }
     });
 
-    function searchModuleNode() {
+    function searchOrgNode() {
         let value = $("#search-input").val();
         if (value) {
-            let flag = moduleTree.searchNode(value); // 内置方法查找节点
+            let flag = orgTree.searchNode(value); // 内置方法查找节点
             if (!flag) {
                 layer.msg("该名称节点不存在！", {icon: 5});
             }
         } else {
-            moduleTree.menubarMethod().refreshTree(); // 内置方法刷新树
+            orgTree.menubarMethod().refreshTree(); // 内置方法刷新树
         }
     }
 
     // 节点点击
-    dtree.on('node("module-tree")', function (obj) {
-        // 模块ID
-        let moduleId = obj.param.nodeId;
+    let odnType;
+    dtree.on('node("org-tree")', function (obj) {
+        let type;
+        if (obj.param.nodeId === '0') { // 根
+            odnType = 'orgType';
+            subOrgOdn(obj.param.nodeId, odnType);
+        }
+        if (obj.param.parentId === '0') { // 机构类型
+            type = 'orgType';
+            odnType = 'org';
+            subOrgOdn(obj.param.nodeId, odnType);
+        }
 
-        findModuleInfo(moduleId);
-        subModulesOdn(moduleId);
+        if (obj.param.leaf && obj.param.parentId !== '0') { // 机构
+            type = 'org';
+        }
+        findOrgInfo(obj.param.nodeId, type);
     });
 
     // 节点点击 模块信息
-    function findModuleInfo(moduleId) {
-        let moduleVOArr = [];
-        let $moduleInfo = $('#module-info');
-        if (moduleId === '0') {
-            moduleVOArr = ['模块树', '根', '', '', ''];
+    function findOrgInfo(code, type) {
+        let orgTitleArr = ['根结点代码', '根结点名称', '状态'], orgArr = ['0', '机构树', ''];
+        let url, data;
+        switch (type) {
+            case 'orgType':
+                orgTitleArr = ['机构类型代码', '机构类型名称', '状态'];
+                url = $WEB_ROOT_PATH + '/org-api/org-type';
+                data = {'orgTypeCode': code};
 
-            $moduleInfo.children('tr').each((i, e) => {
-                let temp = moduleVOArr[i] ? moduleVOArr[i] : '';
-                $(e).children('td').last().text(temp);
+                break;
+            case 'org':
+                orgTitleArr = ['机构代码', '机构名称', '状态'];
+                url = $WEB_ROOT_PATH + '/org-api/org';
+                data = {'org.orgCode': code};
+
+                break;
+        }
+
+        let $orgInfo = $('#org-info');
+        if (code === '0') {
+            $orgInfo.children('tr').each((i, e) => {
+                let titleTemp = orgTitleArr[i] ? orgTitleArr[i] : '';
+                let valueTemp = orgArr[i] ? orgArr[i] : '';
+
+                $(e).children('td').first().text(titleTemp);
+                $(e).children('td').last().text(valueTemp);
             })
 
             return false;
@@ -121,24 +157,31 @@ layui.extend({
 
         $.ajax({
             type: 'get',
-            url: $WEB_ROOT_PATH + '/module-api/module',
+            url: url,
             async: true,
             dataType: 'json',
-            data: {
-                'moduleId': moduleId,
-            },
+            data: data,
             success: function (response, status, xhr) {
-                let moduleVO = response.moduleVOList[0];
+                let orgVO = response.orgVOList[0];
+                orgArr = [];
+                if (type === 'orgType') {
+                    orgArr.push(orgVO.orgTypeCode);
+                    orgArr.push(orgVO.orgTypeName);
+                    orgArr.push(orgVO.statusName);
+                }
+                if (type === 'org') {
+                    orgArr.push(orgVO.orgCode);
+                    orgArr.push(orgVO.orgName);
+                    orgArr.push(orgVO.statusName);
+                }
 
-                moduleVOArr.push(moduleVO.moduleName);
-                moduleVOArr.push(moduleVO.moduleTypeName);
-                moduleVOArr.push(moduleVO.moduleAction);
-                moduleVOArr.push(moduleVO.moduleIcon);
-                moduleVOArr.push(moduleVO.statusName);
                 // 填值
-                $moduleInfo.children('tr').each((i, e) => {
-                    let temp = moduleVOArr[i] ? moduleVOArr[i] : '';
-                    $(e).children('td').last().text(temp);
+                $orgInfo.children('tr').each((i, e) => {
+                    let titleTemp = orgTitleArr[i] ? orgTitleArr[i] : '';
+                    let valueTemp = orgArr[i] ? orgArr[i] : '';
+
+                    $(e).children('td').first().text(titleTemp);
+                    $(e).children('td').last().text(valueTemp);
                 })
             },
             error: function (response, status, xhr) {
@@ -147,26 +190,32 @@ layui.extend({
     }
 
     // 节点点击 子模块排序
-    function subModulesOdn(moduleId) {
+    function subOrgOdn(code, type) {
         saveBtnOdnDisable();
-        if (moduleId === '0') {
-            $('#drag-odn').empty();
 
-            return false;
+        let url, data;
+        switch (type) {
+            case 'orgType':
+                url = $WEB_ROOT_PATH + '/org-api/org-type';
+                data = {};
+
+                break;
+            case 'org':
+                url = $WEB_ROOT_PATH + '/org-api/org-by-type';
+                data = {'orgTypeCode': code};
+
+                break;
         }
 
-        let url = $WEB_ROOT_PATH + '/module-api/sub-module';
         $.ajax({
             type: 'get',
             url: url,
             async: true,
             dataType: 'json',
-            data: {
-                'moduleId': moduleId,
-            },
+            data: data,
             success: function (response, status, xhr) {
-                let moduleList = response.moduleList;
-                sortableHandle(moduleList);
+                let orgVOList = response.orgVOList;
+                sortableHandle(orgVOList, type);
             },
             error: function (response, status, xhr) {
             }
@@ -176,7 +225,7 @@ layui.extend({
     // sortable 使用
     let $saveOdn = $('#save-odn');
 
-    function sortableHandle(data) {
+    function sortableHandle(data, type) {
         let dragOdnObj = document.getElementById('drag-odn');
 
         if (data.length === 0) {
@@ -186,13 +235,22 @@ layui.extend({
         }
         let temp = '';
         data.forEach(e => {
-            temp += `<li class="my-list-group-item" data-id="${e.moduleId}"><span class="iconfont icon-ketuozhuai my-handle"></span>${e.moduleName}</li>`;
+            let code, name
+            if (type === 'orgType') {
+                code = e.orgTypeCode;
+                name = e.orgTypeName;
+            }
+            if (type === 'org') {
+                code = e.orgCode;
+                name = e.orgName;
+            }
+            temp += `<li class="my-list-group-item" data-id="${code}"><span class="iconfont icon-ketuozhuai my-handle"></span>${name}</li>`;
         });
         $(dragOdnObj).html(temp);
 
         // 拖拽排序
         let sortable = new Sortable(dragOdnObj, {
-            group: 'module-odn',
+            group: 'org-odn',
             handle: '.my-handle',
             ghostClass: 'my-ghost-blue',
             animation: 150,
@@ -203,27 +261,39 @@ layui.extend({
 
         // 保存
         $saveOdn.unbind('click').bind('click', function (e) {
-            let moduleIdArr = sortable.toArray();
+            let codeArr = sortable.toArray();
+            let url, msg, data;
+            switch (odnType) {
+                case 'orgType':
+                    url = $WEB_ROOT_PATH + '/org-api/org-type-odn';
+                    msg = '机构类型顺序调整完成！';
+                    data = {'orgTypeCodeList': codeArr};
 
-            let url = $WEB_ROOT_PATH + '/module-api/module-odn';
+                    break;
+                case 'org':
+                    url = $WEB_ROOT_PATH + '/org-api/org-odn';
+                    msg = '机构顺序调整完成！';
+                    data = {'orgCodeList': codeArr};
+
+                    break;
+            }
+
             $.ajax({
                 type: 'put',
                 url: url,
                 async: true,
                 dataType: 'json',
                 traditional: true,
-                data: {
-                    'moduleIdList': moduleIdArr,
-                },
+                data: data,
                 success: function (response, status, xhr) {
-                    let msgWidth = 180;
+                    let msgWidth = 210;
                     let msgOffsetX = math.evaluate(`${(windowW - msgWidth) / 2 - (sidebarWidth / 2)}`);
-                    layer.msg('模块顺序保存成功！', {
+                    layer.msg(msg, {
                         time: 2000,
                         area: `${msgWidth}px`,
                         offset: ['t', `${msgOffsetX}px`]
                     }, function () {
-                        moduleTree.reload();
+                        orgTree.reload();
                     });
                 },
                 error: function (response, status, xhr) {
@@ -232,6 +302,8 @@ layui.extend({
             });
 
             e.stopPropagation();
+
+            return false;
         });
     }
 
@@ -276,13 +348,16 @@ layui.extend({
     // 弹出层
     function openPop(node, event) {
         let title, skin, btn;
+        let url;
         switch (event) {
             case 'add-item':
                 dataCarrier.set(node, event);
                 if (node.nodeId === '0') {
-                    title = '新建系统';
+                    title = '新增机构类型';
+                    url = $WEB_ROOT_PATH + '/org/type/modify';
                 } else {
-                    title = `新建模块`;
+                    title = `新增机构`;
+                    url = $WEB_ROOT_PATH + '/org/modify';
                 }
                 skin = 'modify-class';
                 btn = ['取消', '保存'];
@@ -292,9 +367,11 @@ layui.extend({
                 dataCarrier.set(node, event);
 
                 if (node.parentId === '0') {
-                    title = '修改系统';
+                    title = '修改机构类型';
+                    url = $WEB_ROOT_PATH + '/org/type/modify';
                 } else {
-                    title = `修改模块`;
+                    title = `修改机构`;
+                    url = $WEB_ROOT_PATH + '/org/modify';
                 }
                 skin = 'modify-class';
                 btn = ['取消', '保存'];
@@ -303,9 +380,11 @@ layui.extend({
             case 'del-item':
                 dataCarrier.set(node, event);
                 if (node.parentId === '0') {
-                    title = '删除系统';
+                    title = '删除机构类型';
+                    url = $WEB_ROOT_PATH + '/org/type/modify';
                 } else {
-                    title = `删除模块`;
+                    title = `删除机构`;
+                    url = $WEB_ROOT_PATH + '/org/modify';
                 }
                 skin = 'delete-class';
                 btn = ['取消', '删除'];
@@ -319,7 +398,7 @@ layui.extend({
             skin: skin,
             area: [`${openWidth}px`, `${openHeight}px`],
             offset: ['40px', `${offsetX}px`],
-            content: [$WEB_ROOT_PATH + '/module/modify', 'no'],
+            content: [url, 'no'],
             btn: btn,
             yes(index, layero) {
                 layer.close(index);
@@ -334,7 +413,7 @@ layui.extend({
             },
             end() {
                 if (layui.dataCarrier.isModified) {
-                    moduleTree.reload();
+                    orgTree.reload();
                 }
 
                 dataCarrier.empty();

@@ -18,14 +18,17 @@ import java.util.List;
  */
 public interface DictOrgMapper extends BaseMapper<DictOrg> {
 
-    @Select("select ts.ORG_CODE, o.ORG_NAME, ts.ORG_TYPE_CODE, t.org_type_name " +
+    @Select("<script>" +
+                "select ts.ORG_CODE, o.ORG_NAME, ts.ORG_TYPE_CODE, t.org_type_name " +
                 "  from t_dict_org o, " +
                 "       t_dict_org_type t, " +
                 "       T_DICT_ORG_TYPE_SUB ts " +
                 " where o.org_code = ts.org_code " +
                 "   and t.org_type_code = ts.ORG_TYPE_CODE " +
-                "   and o.STATUS = 'ACTIVE' " +
-                "   and t.status = 'ACTIVE' " +
-                " order by t.odn, o.odn")
+                "<if test='orgTypeCode != null and orgTypeCode.trim() != &quot;&quot; '>" +
+                "   and ts.org_type_code = '${orgTypeCode}' " +
+                "</if>"+
+                " order by t.odn, o.odn " +
+                "</script>")
     List<OrgVO> findOrgInfo(OrgDTO dto);
 }

@@ -53,7 +53,7 @@ public class RolePrivilege implements Serializable {
      * 更新人
      */
     @TableField(value = "UPDATER", fill = FieldFill.INSERT_UPDATE)
-    private String updater;
+    private Long updater;
 
     public Long getRoleId() {
         return roleId;
@@ -87,11 +87,11 @@ public class RolePrivilege implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getUpdater() {
+    public Long getUpdater() {
         return updater;
     }
 
-    public void setUpdater(String updater) {
+    public void setUpdater(Long updater) {
         this.updater = updater;
     }
 

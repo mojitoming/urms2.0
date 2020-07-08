@@ -13,8 +13,7 @@ public enum DictEnum {
     MODULE_TYPE_FUNCTION("FUNCTION", "功能"),
 
     PRIVI_TYPE_MODULE("MODULE", "模块"),
-    PRIVI_TYPE_DATA("DATA", "数据");
-    ;
+    PRIVI_TYPE_DATA("DATA", "数据");;
 
     private final String code;
     private final String name;
@@ -32,12 +31,30 @@ public enum DictEnum {
         return name;
     }
 
-    public static DictEnum getDictEnumByCode(String code){
-        for(DictEnum dictEnum : DictEnum.values()){
-            if(StringUtils.equals(code, dictEnum.getCode())){
+    public static DictEnum getDictEnumByCode(String code) {
+        for (DictEnum dictEnum : DictEnum.values()) {
+            if (StringUtils.equals(code, dictEnum.getCode())) {
                 return dictEnum;
             }
         }
         return null;
+    }
+
+    /*
+     * Annotation:
+     * 状态转换
+     *
+     * @Author: Adam Ming
+     * @Date: Jul 7, 2020 at 11:09:52 AM
+     */
+    public static String convertStatus(String status) {
+        String result;
+        if ("on".equals(status)) {
+            result = STATUS_ACTIVE.getCode();
+        } else {
+            result = STATUS_INACTIVE.getCode();
+        }
+
+        return result;
     }
 }

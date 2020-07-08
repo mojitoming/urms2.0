@@ -77,7 +77,7 @@ public class Module implements Serializable {
      * 创建人
      */
     @TableField(value = "CREATOR", fill = FieldFill.INSERT)
-    private String creator;
+    private Long creator;
 
     public Long getModuleId() {
         return moduleId;
@@ -151,11 +151,11 @@ public class Module implements Serializable {
         this.createDate = createDate;
     }
 
-    public String getCreator() {
+    public Long getCreator() {
         return creator;
     }
 
-    public void setCreator(String creator) {
+    public void setCreator(Long creator) {
         this.creator = creator;
     }
 

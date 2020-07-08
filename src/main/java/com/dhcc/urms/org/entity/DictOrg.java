@@ -1,11 +1,12 @@
 package com.dhcc.urms.org.entity;
 
-import java.math.BigDecimal;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -41,20 +42,20 @@ public class DictOrg implements Serializable {
     /**
      * 顺序号
      */
-    @TableField("ODN")
-    private BigDecimal odn;
+    @TableField(value = "ODN", fill = FieldFill.INSERT)
+    private Long odn;
 
     /**
      * 创建日期
      */
-    @TableField("CREATE_DATE")
+    @TableField(value = "CREATE_DATE", fill = FieldFill.INSERT)
     private LocalDateTime createDate;
 
     /**
      * 创建人
      */
-    @TableField("CREATOR")
-    private String creator;
+    @TableField(value = "CREATOR", fill = FieldFill.INSERT)
+    private Long creator;
 
     public String getOrgCode() {
         return orgCode;
@@ -63,6 +64,7 @@ public class DictOrg implements Serializable {
     public void setOrgCode(String orgCode) {
         this.orgCode = orgCode;
     }
+
     public String getOrgName() {
         return orgName;
     }
@@ -70,6 +72,7 @@ public class DictOrg implements Serializable {
     public void setOrgName(String orgName) {
         this.orgName = orgName;
     }
+
     public String getStatus() {
         return status;
     }
@@ -77,13 +80,15 @@ public class DictOrg implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-    public BigDecimal getOdn() {
+
+    public Long getOdn() {
         return odn;
     }
 
-    public void setOdn(BigDecimal odn) {
+    public void setOdn(Long odn) {
         this.odn = odn;
     }
+
     public LocalDateTime getCreateDate() {
         return createDate;
     }
@@ -91,23 +96,24 @@ public class DictOrg implements Serializable {
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
-    public String getCreator() {
+
+    public Long getCreator() {
         return creator;
     }
 
-    public void setCreator(String creator) {
+    public void setCreator(Long creator) {
         this.creator = creator;
     }
 
     @Override
     public String toString() {
         return "DictOrg{" +
-            "orgCode=" + orgCode +
-            ", orgName=" + orgName +
-            ", status=" + status +
-            ", odn=" + odn +
-            ", createDate=" + createDate +
-            ", creator=" + creator +
-        "}";
+                   "orgCode=" + orgCode +
+                   ", orgName=" + orgName +
+                   ", status=" + status +
+                   ", odn=" + odn +
+                   ", createDate=" + createDate +
+                   ", creator=" + creator +
+                   "}";
     }
 }

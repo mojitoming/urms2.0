@@ -59,7 +59,7 @@ public class Role implements Serializable {
      * 创建人
      */
     @TableField(value = "CREATOR", fill = FieldFill.INSERT)
-    private String creator;
+    private Long creator;
 
     public Long getRoleId() {
         return roleId;
@@ -103,11 +103,11 @@ public class Role implements Serializable {
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
-    public String getCreator() {
+    public Long getCreator() {
         return creator;
     }
 
-    public void setCreator(String creator) {
+    public void setCreator(Long creator) {
         this.creator = creator;
     }
 

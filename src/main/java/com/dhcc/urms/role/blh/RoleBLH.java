@@ -68,7 +68,7 @@ public class RoleBLH implements Serializable {
      */
     public void addRole(RoleDTO dto) {
         Role role = dto.getRole();
-        convertStatus(role);
+        role.setStatus(DictEnum.convertStatus(role.getStatus()));
 
         roleService.save(role);
     }
@@ -82,7 +82,7 @@ public class RoleBLH implements Serializable {
      */
     public void updateRole(RoleDTO dto) {
         Role role = dto.getRole();
-        convertStatus(role);
+        role.setStatus(DictEnum.convertStatus(role.getStatus()));
 
         roleService.updateById(role);
     }
@@ -242,22 +242,5 @@ public class RoleBLH implements Serializable {
         }
 
         dto.setdTreeVO(dTreeVO);
-    }
-
-    // =================== 私有方法分割线 ===================
-
-    /*
-     * Annotation:
-     * Role Status 状态转变
-     *
-     * @Author: Adam Ming
-     * @Date: Jun 22, 2020 at 5:33:29 PM
-     */
-    private void convertStatus(Role role) {
-        if ("on".equals(role.getStatus())) {
-            role.setStatus(DictEnum.STATUS_ACTIVE.getCode());
-        } else {
-            role.setStatus(DictEnum.STATUS_INACTIVE.getCode());
-        }
     }
 }

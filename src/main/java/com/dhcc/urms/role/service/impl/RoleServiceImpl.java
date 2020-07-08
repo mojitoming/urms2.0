@@ -13,6 +13,7 @@ import com.dhcc.urms.role.service.IRoleService;
 import com.dhcc.urms.roleprivilege.entity.RolePrivilege;
 import com.dhcc.urms.roleprivilege.mapper.RolePrivilegeMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -43,6 +44,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         return roleMapper.findRole(page);
     }
 
+    @Transactional
     @Override
     public void deleteRole(RoleDTO dto) {
         long roleId = dto.getRole().getRoleId();
@@ -55,6 +57,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         rolePrivilegeMapper.delete(qw);
     }
 
+    @Transactional
     @Override
     public void deleteRoles(RoleDTO dto) {
         List<Long> roleIdList = dto.getRoleList().stream().map(Role::getRoleId).collect(Collectors.toList());

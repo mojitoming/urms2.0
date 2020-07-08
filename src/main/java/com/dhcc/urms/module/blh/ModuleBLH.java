@@ -167,7 +167,7 @@ public class ModuleBLH implements Serializable {
      */
     public void addModule(ModuleDTO dto) {
         Module module = dto.getModule();
-        convertStatus(module);
+        module.setStatus(DictEnum.convertStatus(module.getStatus()));
 
         moduleService.save(module);
     }
@@ -181,7 +181,7 @@ public class ModuleBLH implements Serializable {
      */
     public void updateModule(ModuleDTO dto) {
         Module module = dto.getModule();
-        convertStatus(module);
+        module.setStatus(DictEnum.convertStatus(module.getStatus()));
 
         moduleService.updateById(module);
     }
@@ -195,22 +195,5 @@ public class ModuleBLH implements Serializable {
      */
     public void deleteModule(ModuleDTO dto) {
         moduleService.deleteModule(dto);
-    }
-
-    // =================== 私有方法分割线 ===================
-
-    /*
-     * Annotation:
-     * Role Status 状态转变
-     *
-     * @Author: Adam Ming
-     * @Date: Jun 22, 2020 at 5:33:29 PM
-     */
-    private void convertStatus(Module module) {
-        if ("on".equals(module.getStatus())) {
-            module.setStatus(DictEnum.STATUS_ACTIVE.getCode());
-        } else {
-            module.setStatus(DictEnum.STATUS_INACTIVE.getCode());
-        }
     }
 }

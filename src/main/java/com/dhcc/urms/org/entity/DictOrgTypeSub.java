@@ -1,9 +1,11 @@
 package com.dhcc.urms.org.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -33,14 +35,14 @@ public class DictOrgTypeSub implements Serializable {
     /**
      * 创建时间
      */
-    @TableField("CREATE_DATE")
+    @TableField(value = "CREATE_DATE", fill = FieldFill.INSERT)
     private LocalDateTime createDate;
 
     /**
      * 创建人
      */
-    @TableField("CREATOR")
-    private String creator;
+    @TableField(value = "CREATOR", fill = FieldFill.INSERT)
+    private Long creator;
 
     public String getOrgTypeCode() {
         return orgTypeCode;
@@ -49,6 +51,7 @@ public class DictOrgTypeSub implements Serializable {
     public void setOrgTypeCode(String orgTypeCode) {
         this.orgTypeCode = orgTypeCode;
     }
+
     public String getOrgCode() {
         return orgCode;
     }
@@ -56,6 +59,7 @@ public class DictOrgTypeSub implements Serializable {
     public void setOrgCode(String orgCode) {
         this.orgCode = orgCode;
     }
+
     public LocalDateTime getCreateDate() {
         return createDate;
     }
@@ -63,21 +67,22 @@ public class DictOrgTypeSub implements Serializable {
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
-    public String getCreator() {
+
+    public Long getCreator() {
         return creator;
     }
 
-    public void setCreator(String creator) {
+    public void setCreator(Long creator) {
         this.creator = creator;
     }
 
     @Override
     public String toString() {
         return "DictOrgTypeSub{" +
-            "orgTypeCode=" + orgTypeCode +
-            ", orgCode=" + orgCode +
-            ", createDate=" + createDate +
-            ", creator=" + creator +
-        "}";
+                   "orgTypeCode=" + orgTypeCode +
+                   ", orgCode=" + orgCode +
+                   ", createDate=" + createDate +
+                   ", creator=" + creator +
+                   "}";
     }
 }

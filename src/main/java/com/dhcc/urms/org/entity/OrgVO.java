@@ -14,6 +14,8 @@ public class OrgVO implements Serializable {
 
     private String orgCode;
     private String orgName;
+    private String status;
+    private String statusName;
     private String orgTypeCode;
     private String orgTypeName;
 
@@ -31,6 +33,22 @@ public class OrgVO implements Serializable {
 
     public void setOrgName(String orgName) {
         this.orgName = orgName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatusName() {
+        return statusName;
+    }
+
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 
     public String getOrgTypeCode() {

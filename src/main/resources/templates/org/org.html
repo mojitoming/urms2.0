@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="'../static/common/common_js_css' :: common_js_css(~{::head/title}, ~{::head/link}, ~{::head/script})">
+    <title>User Role Management System</title>
+    <link rel="stylesheet" th:href="@{/css/org/org.css}">
+    <script th:src="@{/plugins/jquery/Sortable.js}"></script>
+    <!--<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css}"/>-->
+    <script th:src="@{/js/org/org.js}"></script>
+</head>
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <div id="org-tree-cover" class="layui-col-md4">
+                <input id="search-input" type="text" placeholder="机构名..." autocomplete="off" class="layui-input">
+                <ul id="org-tree" class="dtree" data-id="-1"></ul>
+            </div>
+            <div id="content-cover" class="layui-col-md8">
+                <div class="layui-collapse" lay-accordion>
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">机构信息</h2>
+                        <div class="layui-colla-content layui-show">
+                            <table class="layui-table">
+                                <colgroup>
+                                    <col width="100">
+                                    <col width="200">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>属性名</th>
+                                    <th>属性值</th>
+                                </tr>
+                                </thead>
+                                <tbody id="org-info">
+                                <tr>
+                                    <td>根结点代码</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>根结点名称</td>
+                                    <td>机构树</td>
+                                </tr>
+                                <tr>
+                                    <td>状态</td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="layui-colla-item">
+                        <h2 class="layui-colla-title">机构排序</h2>
+                        <div class="layui-colla-content">
+                            <ul id="drag-odn" class="my-list-group">
+                            </ul>
+                            <button id='save-odn' type="button" class="layui-btn layui-btn-normal layui-btn-xs layui-btn-disabled" disabled="disabled">保存当前顺序</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

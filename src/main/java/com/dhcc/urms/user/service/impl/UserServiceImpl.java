@@ -13,6 +13,7 @@ import com.dhcc.urms.user.service.IUserService;
 import com.dhcc.urms.userrole.entity.UserRole;
 import com.dhcc.urms.userrole.mapper.UserRoleMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -43,6 +44,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return userMapper.findUser(page);
     }
 
+    @Transactional
     @Override
     public void deleteUser(UserDTO dto) {
         long userId = dto.getUser().getUserId();
@@ -56,6 +58,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         userRoleMapper.delete(qw);
     }
 
+    @Transactional
     @Override
     public void deleteUsers(UserDTO dto) {
         List<Long> userIdList = dto.getUserList().stream().map(User::getUserId).collect(Collectors.toList());

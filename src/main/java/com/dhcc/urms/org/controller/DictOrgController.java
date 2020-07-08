@@ -14,5 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/org")
 public class DictOrgController {
+    private final String PREFIX = "org/";
 
+    @RequestMapping(value = {"", "/"})
+    public String org() {
+        return PREFIX + "org";
+    }
+
+    @RequestMapping("/modify")
+    public String modify() {
+        return PREFIX + "orgModify";
+    }
+
+    @RequestMapping("/type/modify")
+    public String typeModify() {
+        return PREFIX + "orgTypeModify";
+    }
 }
