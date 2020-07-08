@@ -47,7 +47,7 @@ public class UserRole implements Serializable {
      * 更新人
      */
     @TableField(value = "UPDATER", fill = FieldFill.INSERT_UPDATE)
-    private Long updater;
+    private String updater;
 
     /**
      * 是否默认登录角色 1：是 ,0：否（默认1）用户分配多个角色时优先级高的角色默认1，低的默认0
@@ -79,11 +79,11 @@ public class UserRole implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Long getUpdater() {
+    public String getUpdater() {
         return updater;
     }
 
-    public void setUpdater(Long updater) {
+    public void setUpdater(String updater) {
         this.updater = updater;
     }
 

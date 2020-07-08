@@ -6,7 +6,7 @@ import com.dhcc.urms.condfilter.dto.CondFilterDTO;
 import com.dhcc.urms.condfilter.entity.CondTypeEnum;
 import com.dhcc.urms.condfilter.entity.DictFilterKeyword;
 import com.dhcc.urms.condfilter.service.ICondFilterService;
-import com.dhcc.urms.user.util.UserInfo;
+import com.mojitoming.casclient.util.UserInfo;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
