@@ -9,8 +9,8 @@ info:
 
 cas:
   url:
-    server: http://127.0.0.1:18080
-    client: http://127.0.0.1:8089
+    server: http://114.242.246.233:8090
+    client: http://114.242.246.233:8000
 
 spring:
   profiles:

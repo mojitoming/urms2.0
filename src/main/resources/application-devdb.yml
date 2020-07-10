@@ -1,7 +1,7 @@
 db:
-  url: jdbc:oracle:thin:@114.242.246.230:1521:orcl
+  url: jdbc:oracle:thin:@172.18.18.133:1521:orcl
   username: drg_gms
-  password: ENC(ABmG91HUH0+AhxAvnB4YBA==)
+  password: ENC(XT7+t5WRrzMULxVDHxjR3A==)
   driverClassName: oracle.jdbc.OracleDriver
 
 # 数据库访问配置
@@ -24,11 +24,11 @@ spring:
     # Redis数据库索引（默认为0）
     database: 0
     # Redis服务器地址
-    host: 127.0.0.1
+    host: 172.18.18.134
     # Redis服务器连接端口
     port: 6379
     # Redis服务器连接密码（默认为空）
-    password: ENC(WOloK72WqIXrQ/xmZ2BgvX8O4ch4/qCf)
+    password: ENC(enV/YW6ZbYEiv5ZbxRLa1a93HyW/bl7I)
     jedis:
       # 链接池
       pool:
