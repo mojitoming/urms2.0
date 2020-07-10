@@ -9,6 +9,7 @@ public class DTreeNodeVO implements Serializable {
     private String title; // 节点名称
     private String parentId = "-1"; // 父节点ID
     private String checkArr = "0"; // 复选框 默认不选中
+    private boolean spread = false; // 是否展开
 
     public String getId() {
         return id;
@@ -40,5 +41,13 @@ public class DTreeNodeVO implements Serializable {
 
     public void setCheckArr(String checkArr) {
         this.checkArr = checkArr;
+    }
+
+    public boolean isSpread() {
+        return spread;
+    }
+
+    public void setSpread(boolean spread) {
+        this.spread = spread;
     }
 }

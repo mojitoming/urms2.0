@@ -48,7 +48,7 @@ layui.use(['form'], function () {
             },
             success: function (response, status, xhr) {
                 // 回填
-                let module = response.moduleList[0];
+                let module = response.moduleVOList[0];
 
                 if (dataCarrier.event === 'add-item') {
                     let moduleType = dataCarrier.node.nodeId === '0' ? 'SYSTEM' : 'PAGE';

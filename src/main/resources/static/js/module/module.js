@@ -147,7 +147,10 @@ layui.extend({
     }
 
     // 节点点击 子模块排序
+    let odnModuleId;
+
     function subModulesOdn(moduleId) {
+        odnModuleId = moduleId;
         saveBtnOdnDisable();
         if (moduleId === '0') {
             $('#drag-odn').empty();
@@ -223,7 +226,11 @@ layui.extend({
                         area: `${msgWidth}px`,
                         offset: ['t', `${msgOffsetX}px`]
                     }, function () {
-                        moduleTree.reload();
+                        moduleTree.reload({
+                            request: {
+                                'moduleId': odnModuleId,
+                            }
+                        });
                     });
                 },
                 error: function (response, status, xhr) {
@@ -334,7 +341,18 @@ layui.extend({
             },
             end() {
                 if (layui.dataCarrier.isModified) {
-                    moduleTree.reload();
+                    let moduleId;
+                    if (layui.dataCarrier.event === 'del-item') {
+                        moduleId = layui.dataCarrier.node.parentId;
+                    } else {
+                        moduleId = layui.dataCarrier.node.nodeId;
+                    }
+
+                    moduleTree.reload({
+                        request: {
+                            "moduleId": moduleId,
+                        }
+                    });
                 }
 
                 dataCarrier.empty();

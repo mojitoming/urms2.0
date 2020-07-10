@@ -16,6 +16,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +72,16 @@ public class ModuleBLH implements Serializable {
         DTreeNodeVO dTreeNodeVO = new DTreeNodeVO();
         dTreeNodeVO.setId("0");
         dTreeNodeVO.setTitle(rootTitle);
+        dTreeNodeVO.setSpread(true); // 展开根 —— "模块树"
         dTreeVO.getData().add(dTreeNodeVO);
+
+        // 修改节点后，展开节点
+        List<Long> spreadIdList = new ArrayList<>();
+        if (!StringUtils.isEmpty(dto.getModuleId()) && dto.getModuleId() != 0) {
+            List<Module> parentsList = moduleService.findParents(dto);
+
+            spreadIdList = parentsList.stream().map(Module::getModuleId).collect(Collectors.toList());
+        }
 
         String isCheck;
         for (Module module : moduleList) {
@@ -82,6 +92,10 @@ public class ModuleBLH implements Serializable {
 
             isCheck = StringUtils.isEmpty(privilegeMap.get(module.getModuleId().toString())) ? "0" : "1";
             dTreeNodeVO.setCheckArr(isCheck);
+
+            if (spreadIdList.contains(module.getModuleId())) {
+                dTreeNodeVO.setSpread(true);
+            }
 
             dTreeVO.getData().add(dTreeNodeVO);
         }
@@ -168,6 +182,15 @@ public class ModuleBLH implements Serializable {
     public void addModule(ModuleDTO dto) {
         Module module = dto.getModule();
         module.setStatus(DictEnum.convertStatus(module.getStatus()));
+
+        // 查询最大的 odn，追加
+        QueryWrapper<Module> qw = new QueryWrapper<>();
+        qw.select("nvl(max(odn), 0) as MAX_ODN");
+        qw.eq("PARENT_ID", module.getParentId());
+        Map<String, Object> resultMap = moduleService.getMap(qw);
+        long maxOdn = ((BigDecimal) resultMap.get("MAX_ODN")).longValue();
+
+        module.setOdn(++maxOdn);
 
         moduleService.save(module);
     }

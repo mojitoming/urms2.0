@@ -8,6 +8,7 @@ import com.dhcc.urms.module.service.IModuleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -27,5 +28,10 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
         // 删除此节点及其叶子结点
         Module module = dto.getModule();
         moduleMapper.deleteModule(module);
+    }
+
+    @Override
+    public List<Module> findParents(ModuleDTO dto) {
+        return moduleMapper.findParents(dto);
     }
 }
