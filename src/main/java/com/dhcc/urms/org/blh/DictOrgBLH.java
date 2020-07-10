@@ -83,6 +83,7 @@ public class DictOrgBLH implements Serializable {
         DTreeNodeVO dTreeNodeVO = new DTreeNodeVO();
         dTreeNodeVO.setId("0");
         dTreeNodeVO.setTitle(rootTitle);
+        dTreeNodeVO.setSpread(true);
         dTreeVO.getData().add(dTreeNodeVO);
 
         String isCheck;
