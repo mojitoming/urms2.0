@@ -49,7 +49,7 @@ layui.extend({
                     buttons.orgEdit = '';
                     buttons.orgDel = '';
                 }
-                if (param.leaf && param.parentId !== '0') {
+                if (param.leaf && param.parentId !== '0' && param.parentId !== '-1') {
                     buttons.orgAdd = '';
                 }
 
