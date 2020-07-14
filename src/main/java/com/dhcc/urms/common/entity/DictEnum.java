@@ -13,7 +13,12 @@ public enum DictEnum {
     MODULE_TYPE_FUNCTION("FUNCTION", "功能"),
 
     PRIVI_TYPE_MODULE("MODULE", "模块"),
-    PRIVI_TYPE_DATA("DATA", "数据");;
+    PRIVI_TYPE_DATA("DATA", "数据"),
+
+    CIS_LEVEL_1("1", "一级"),
+    CIS_LEVEL_2("2", "二级"),
+    CIS_LEVEL_3("3", "三级")
+    ;
 
     private final String code;
     private final String name;

@@ -141,7 +141,12 @@ public class DictOrgBLH implements Serializable {
         List<OrgVO> orgVOList = orgList.stream().map(e -> {
             OrgVO vo = new OrgVO();
             BeanUtils.copyProperties(e, vo);
-            vo.setStatusName(Objects.requireNonNull(DictEnum.getDictEnumByCode(e.getStatus())).getName());
+            if (!StringUtils.isEmpty(DictEnum.getDictEnumByCode(e.getCisLevel()))) {
+                vo.setCisLevelName(DictEnum.getDictEnumByCode(e.getCisLevel()).getName());
+            }
+            if (!StringUtils.isEmpty(DictEnum.getDictEnumByCode(e.getStatus()))) {
+                vo.setStatusName(DictEnum.getDictEnumByCode(e.getStatus()).getName());
+            }
 
             return vo;
         }).collect(Collectors.toList());
@@ -342,6 +347,7 @@ public class DictOrgBLH implements Serializable {
         DictOrg org = new DictOrg(); // 分解对象 DictOrg
         org.setOrgCode(orgVO.getOrgCode());
         org.setOrgName(orgVO.getOrgName());
+        org.setCisLevel(orgVO.getCisLevel());
         org.setStatus(DictEnum.convertStatus(orgVO.getStatus()));
 
         DictOrgTypeSub orgTypeSub = new DictOrgTypeSub(); // 分解对象 DictOrgTypeSub

@@ -125,30 +125,71 @@ layui.extend({
 
     // 节点点击 模块信息
     function findOrgInfo(code, type) {
-        let orgTitleArr = ['根结点代码', '根结点名称', '状态'], orgArr = ['0', '机构树', ''];
+        let $orgInfo = $('#org-info');
+        let orgInfoStr =
+            '<tr>' +
+            '    <td>根结点代码</td>' +
+            '    <td>0</td>' +
+            '</tr>' +
+            '<tr>' +
+            '    <td>根结点名称</td>' +
+            '    <td>机构树</td>' +
+            '</tr>' +
+            '<tr>' +
+            '    <td>状态</td>' +
+            '    <td></td>' +
+            '</tr>';
+        let orgArr = ['0', '机构树', ''];
         let url, data;
         switch (type) {
             case 'orgType':
-                orgTitleArr = ['机构类型代码', '机构类型名称', '状态'];
+                orgInfoStr =
+                    '<tr>' +
+                    '    <td>机构类型代码</td>' +
+                    '    <td></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '    <td>机构类型名称</td>' +
+                    '    <td></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '    <td>状态</td>' +
+                    '    <td></td>' +
+                    '</tr>';
                 url = $WEB_ROOT_PATH + '/org-api/org-type';
                 data = {'orgTypeCode': code};
 
                 break;
             case 'org':
-                orgTitleArr = ['机构代码', '机构名称', '状态'];
+                orgInfoStr =
+                    '<tr>' +
+                    '    <td>机构代码</td>' +
+                    '    <td></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '    <td>机构名称</td>' +
+                    '    <td></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '    <td>医保结算等级</td>' +
+                    '    <td></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '    <td>状态</td>' +
+                    '    <td></td>' +
+                    '</tr>';
                 url = $WEB_ROOT_PATH + '/org-api/org';
-                data = {'org.orgCode': code};
+                data = {'orgCode': code};
 
                 break;
         }
 
-        let $orgInfo = $('#org-info');
+        $orgInfo.empty();
+        $orgInfo.html(orgInfoStr);
         if (code === '0') {
             $orgInfo.children('tr').each((i, e) => {
-                let titleTemp = orgTitleArr[i] ? orgTitleArr[i] : '';
                 let valueTemp = orgArr[i] ? orgArr[i] : '';
 
-                $(e).children('td').first().text(titleTemp);
                 $(e).children('td').last().text(valueTemp);
             })
 
@@ -172,15 +213,14 @@ layui.extend({
                 if (type === 'org') {
                     orgArr.push(orgVO.orgCode);
                     orgArr.push(orgVO.orgName);
+                    orgArr.push(orgVO.cisLevelName);
                     orgArr.push(orgVO.statusName);
                 }
 
                 // 填值
                 $orgInfo.children('tr').each((i, e) => {
-                    let titleTemp = orgTitleArr[i] ? orgTitleArr[i] : '';
                     let valueTemp = orgArr[i] ? orgArr[i] : '';
 
-                    $(e).children('td').first().text(titleTemp);
                     $(e).children('td').last().text(valueTemp);
                 })
             },

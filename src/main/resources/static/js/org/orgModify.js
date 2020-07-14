@@ -33,6 +33,27 @@ layui.use(['form'], function () {
             error: function (response, status, xhr) {
             }
         });
+
+        // 获取 cis-level 字典
+        $.get(`${$WEB_ROOT_PATH}/dict-api/dict`,
+            {
+                'dictTable': 'T_DICT',
+                'dictValue': 'CODE',
+                'dictTitle': 'NAME',
+                'dictWhere': "CLASS = 'CIS-LEVEL' AND STATUS = 'ACTIVE'",
+                'dictOrderBy': 'ODN'
+            },
+            response => {
+                let data = response.dictList;
+                let $cisLevel = $('select[name="cisLevel"]');
+
+                let tempStr = '<option value=""></option>';
+                data.forEach((value) => {
+                    tempStr += `<option value="${value.value}">${value.title}</option>`;
+                });
+                $cisLevel.html(tempStr);
+                form.render('select');
+            });
     })();
 
     // init form information
@@ -64,6 +85,7 @@ layui.use(['form'], function () {
                         'orgTypeCode': dataCarrier.node.parentId,
                         'orgCode': orgVO.orgCode,
                         'orgName': orgVO.orgName,
+                        'cisLevel': orgVO.cisLevel,
                         'status': orgVO.status === 'ACTIVE',
                     });
 

@@ -34,6 +34,12 @@ public class DictOrg implements Serializable {
     private String orgName;
 
     /**
+     * 医保结算等级
+     */
+    @TableField("CIS_LEVEL")
+    private String cisLevel;
+
+    /**
      * 状态
      */
     @TableField("STATUS")
@@ -73,6 +79,14 @@ public class DictOrg implements Serializable {
         this.orgName = orgName;
     }
 
+    public String getCisLevel() {
+        return cisLevel;
+    }
+
+    public void setCisLevel(String cisLevel) {
+        this.cisLevel = cisLevel;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -110,6 +124,7 @@ public class DictOrg implements Serializable {
         return "DictOrg{" +
                    "orgCode=" + orgCode +
                    ", orgName=" + orgName +
+                   ", cisLevel=" + cisLevel +
                    ", status=" + status +
                    ", odn=" + odn +
                    ", createDate=" + createDate +

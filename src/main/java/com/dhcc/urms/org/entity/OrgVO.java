@@ -14,6 +14,8 @@ public class OrgVO implements Serializable {
 
     private String orgCode;
     private String orgName;
+    private String cisLevel;
+    private String cisLevelName;
     private String status;
     private String statusName;
     private String orgTypeCode;
@@ -33,6 +35,22 @@ public class OrgVO implements Serializable {
 
     public void setOrgName(String orgName) {
         this.orgName = orgName;
+    }
+
+    public String getCisLevel() {
+        return cisLevel;
+    }
+
+    public void setCisLevel(String cisLevel) {
+        this.cisLevel = cisLevel;
+    }
+
+    public String getCisLevelName() {
+        return cisLevelName;
+    }
+
+    public void setCisLevelName(String cisLevelName) {
+        this.cisLevelName = cisLevelName;
     }
 
     public String getStatus() {

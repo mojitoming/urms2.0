@@ -10,3 +10,11 @@
 .layui-disabled {
     color: rgb(84, 84, 84) !important;
 }
+
+.layui-form-label {
+    width: 100px;
+}
+
+.layui-input-block {
+    margin-left: 130px;
+}
