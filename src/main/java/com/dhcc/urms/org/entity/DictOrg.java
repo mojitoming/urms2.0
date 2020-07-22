@@ -37,7 +37,7 @@ public class DictOrg implements Serializable {
      * 医保结算等级
      */
     @TableField("CIS_LEVEL")
-    private String cisLevel;
+    private Integer cisLevel;
 
     /**
      * 状态
@@ -79,11 +79,11 @@ public class DictOrg implements Serializable {
         this.orgName = orgName;
     }
 
-    public String getCisLevel() {
+    public Integer getCisLevel() {
         return cisLevel;
     }
 
-    public void setCisLevel(String cisLevel) {
+    public void setCisLevel(Integer cisLevel) {
         this.cisLevel = cisLevel;
     }
 
